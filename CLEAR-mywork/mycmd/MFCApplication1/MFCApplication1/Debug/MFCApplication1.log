@@ -1,0 +1,4 @@
+﻿  MFCApplication1Dlg.cpp
+C:\Users\19100\source\repos\MFCApplication1\MFCApplication1\MFCApplication1Dlg.cpp(213,20): warning C4018: “<”: 有符号/无符号不匹配
+C:\Users\19100\source\repos\MFCApplication1\MFCApplication1\MFCApplication1Dlg.cpp(215,20): warning C4244: “=”: 从“wchar_t”转换到“char”，可能丢失数据
+  MFCApplication1.vcxproj -> C:\Users\19100\source\repos\MFCApplication1\Debug\MFCApplication1.exe

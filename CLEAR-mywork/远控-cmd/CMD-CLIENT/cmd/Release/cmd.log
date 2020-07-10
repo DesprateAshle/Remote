@@ -1,0 +1,9 @@
+﻿cl : 命令行 warning D9025: 正在重写“/sdl”(用“/GS-”)
+  cmd.cpp
+C:\Users\19100\Desktop\cmd远控 client\cmd\cmd.cpp(80,37): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  正在生成代码
+  0 of 222 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  已完成代码的生成
+  cmd.vcxproj -> C:\Users\19100\Desktop\cmd远控 client\Release\cmd.exe

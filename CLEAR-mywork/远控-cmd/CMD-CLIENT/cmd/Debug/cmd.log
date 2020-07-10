@@ -1,0 +1,4 @@
+﻿cl : 命令行 warning D9025: 正在重写“/sdl”(用“/GS-”)
+  cmd.cpp
+C:\Users\19100\Desktop\cmd远控 client\cmd\cmd.cpp(80,37): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  cmd.vcxproj -> C:\Users\19100\Desktop\cmd远控 client\Debug\cmd.exe

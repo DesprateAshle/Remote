@@ -1,0 +1,5 @@
+﻿  pch.cpp
+  dllmain.cpp
+  LINK : 没有找到 ..\..\bin\HOOK.dll 或上一个增量链接没有生成它；正在执行完全链接
+    正在创建库 ..\..\bin\HOOK.lib 和对象 ..\..\bin\HOOK.exp
+  HOOK.vcxproj -> C:\Users\19100\Desktop\CLEAR-mywork\dll-键盘全局HOOK\HOOK\..\..\bin\HOOK.dll

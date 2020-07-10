@@ -1,0 +1,5 @@
+﻿cl : 命令行 warning D9025: 正在重写“/sdl”(用“/GS-”)
+  cmd远控server.cpp
+C:\Users\19100\Desktop\cmd远控server\cmd远控server\cmd远控server.cpp(37,33): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Users\19100\Desktop\cmd远控server\cmd远控server\cmd远控server.cpp(60,57): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  cmd远控server.vcxproj -> C:\Users\19100\Desktop\cmd远控server\Debug\cmd远控server.exe
