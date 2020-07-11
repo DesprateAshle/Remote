@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29920.165
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Remote-SERVER", "Remote-SERVER\Remote-SERVER.vcxproj", "{56062771-F403-4A47-AAF2-4016A132DAE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{56062771-F403-4A47-AAF2-4016A132DAE6}.Debug|x64.ActiveCfg = Debug|x64
+		{56062771-F403-4A47-AAF2-4016A132DAE6}.Debug|x64.Build.0 = Debug|x64
+		{56062771-F403-4A47-AAF2-4016A132DAE6}.Debug|x86.ActiveCfg = Debug|Win32
+		{56062771-F403-4A47-AAF2-4016A132DAE6}.Debug|x86.Build.0 = Debug|Win32
+		{56062771-F403-4A47-AAF2-4016A132DAE6}.Release|x64.ActiveCfg = Release|x64
+		{56062771-F403-4A47-AAF2-4016A132DAE6}.Release|x64.Build.0 = Release|x64
+		{56062771-F403-4A47-AAF2-4016A132DAE6}.Release|x86.ActiveCfg = Release|Win32
+		{56062771-F403-4A47-AAF2-4016A132DAE6}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1EFE5623-1CB0-44C7-AF51-C9BB8F9C6B62}
+	EndGlobalSection
+EndGlobal
