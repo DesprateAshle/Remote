@@ -151,9 +151,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cmd远控server.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\keyBordHOOK\keyBordHOOK\DATA.h" />
+    <ClCompile Include="DATA.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

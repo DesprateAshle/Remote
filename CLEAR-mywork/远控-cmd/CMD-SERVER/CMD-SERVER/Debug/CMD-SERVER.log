@@ -1,5 +1,5 @@
 ﻿cl : 命令行 warning D9025: 正在重写“/sdl”(用“/GS-”)
   CMD-SERVER.cpp
-C:\Users\19100\Desktop\CMD-SERVER\CMD-SERVER\CMD-SERVER.cpp(36,33): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-C:\Users\19100\Desktop\CMD-SERVER\CMD-SERVER\CMD-SERVER.cpp(59,57): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-  CMD-SERVER.vcxproj -> C:\Users\19100\Desktop\CMD-SERVER\Debug\CMD-SERVER.exe
+C:\Users\19100\Desktop\Remote\Remote\CLEAR-mywork\远控-cmd\CMD-SERVER\CMD-SERVER\CMD-SERVER.cpp(36,33): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Users\19100\Desktop\Remote\Remote\CLEAR-mywork\远控-cmd\CMD-SERVER\CMD-SERVER\CMD-SERVER.cpp(59,57): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  CMD-SERVER.vcxproj -> C:\Users\19100\Desktop\Remote\Remote\CLEAR-mywork\远控-cmd\CMD-SERVER\Debug\CMD-SERVER.exe

@@ -1,5 +1,5 @@
-﻿  pch.cpp
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(453,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+  pch.cpp
   dllmain.cpp
-  LINK : 没有找到 ..\..\bin\HOOK.dll 或上一个增量链接没有生成它；正在执行完全链接
-    正在创建库 ..\..\bin\HOOK.lib 和对象 ..\..\bin\HOOK.exp
-  HOOK.vcxproj -> C:\Users\19100\Desktop\CLEAR-mywork\dll-键盘全局HOOK\HOOK\..\..\bin\HOOK.dll
+    正在创建库 C:\Users\19100\Desktop\Remote\bin\HOOK.lib 和对象 C:\Users\19100\Desktop\Remote\bin\HOOK.exp
+  HOOK.vcxproj -> C:\Users\19100\Desktop\Remote\bin\HOOK.dll

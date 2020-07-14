@@ -1,7 +1,7 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(453,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
   pch.cpp
   dllmain.cpp
-C:\Users\19100\Desktop\CLEAR-mywork\dll-键盘全局HOOK\HOOK\dllmain.cpp(19,26): warning C4477: “sprintf_s”: 格式字符串“%c”需要类型“int”的参数，但可变参数 1 拥有了类型“WPARAM”
-C:\Users\19100\Desktop\CLEAR-mywork\dll-键盘全局HOOK\HOOK\dllmain.cpp(23,38): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
-    正在创建库 ../../../bin\HOOK.lib 和对象 ../../../bin\HOOK.exp
-  HOOK.vcxproj -> C:\Users\19100\Desktop\CLEAR-mywork\dll-键盘全局HOOK\HOOK\../../../bin\HOOK.dll
+C:\Users\19100\Desktop\Remote\Remote\dll-键盘全局HOOK\HOOK\dllmain.cpp(19,26): warning C4477: “sprintf_s”: 格式字符串“%c”需要类型“int”的参数，但可变参数 1 拥有了类型“WPARAM”
+C:\Users\19100\Desktop\Remote\Remote\dll-键盘全局HOOK\HOOK\dllmain.cpp(23,38): warning C4267: “=”: 从“size_t”转换到“DWORD”，可能丢失数据
+    正在创建库 C:\Users\19100\Desktop\Remote\bin\HOOK.lib 和对象 C:\Users\19100\Desktop\Remote\bin\HOOK.exp
+  HOOK.vcxproj -> C:\Users\19100\Desktop\Remote\bin\HOOK.dll

@@ -1,0 +1,5 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(453,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+cl : 命令行 warning D9025: 正在重写“/sdl”(用“/GS-”)
+  Remote-Client.cpp
+C:\Users\19100\Desktop\Remote\Remote\Remote-Client\Remote-Client\Remote-Client.cpp(195,33): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  Remote-Client.vcxproj -> C:\Users\19100\Desktop\Remote\bin\Remote-Client.exe

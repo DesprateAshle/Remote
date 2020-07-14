@@ -3,8 +3,9 @@
 //
 
 #pragma once
-
-
+#include<map>
+#include"Mysession.h"
+#include<mutex>
 // CRemoteSERVERDlg 对话框
 class CRemoteSERVERDlg : public CDialogEx
 {
@@ -31,4 +32,21 @@ protected:
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
 	DECLARE_MESSAGE_MAP()
+public:
+	CListCtrl list_client;
+
+public:
+	//自写变量
+
+	SOCKET sserver; //服务端套接字
+	HANDLE hclient;	//接受客户端的线程句柄
+	std::map<SOCKET, Mysession*> map_session;
+	std::mutex accept_mutex;
+
+public:
+	//自写函数
+
+	void initialization();
+	static DWORD WINAPI acceptthread(LPVOID lparam);
+
 };

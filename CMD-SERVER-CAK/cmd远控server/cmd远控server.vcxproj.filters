@@ -18,10 +18,8 @@
     <ClCompile Include="cmd远控server.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\keyBordHOOK\keyBordHOOK\DATA.h">
+    <ClCompile Include="DATA.h">
       <Filter>头文件</Filter>
-    </ClInclude>
+    </ClCompile>
   </ItemGroup>
 </Project>

