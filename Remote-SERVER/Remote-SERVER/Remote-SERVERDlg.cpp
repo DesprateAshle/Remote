@@ -340,15 +340,14 @@ void CRemoteSERVERDlg::OnScreen()
 
 	senddatahead(sclient, SERVER_SCREEN_COMMAND);
 
-
 	{
 		std::lock_guard<std::mutex> lg(accept_mutex); 
 		if (map_session[sclient]->pscreendlg == NULL)
 		{
 			map_session[sclient]->pscreendlg = new CscreenDlg;
 			map_session[sclient]->pscreendlg->Create(IDD_CscreenDlg,this);
-			map_session[sclient]->pscreendlg->isclose = true;
 		}
+		map_session[sclient]->pscreendlg->isclose = true;
 	}
 }
 
