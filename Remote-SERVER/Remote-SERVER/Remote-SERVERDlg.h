@@ -6,6 +6,8 @@
 #include<map>
 #include"Mysession.h"
 #include<mutex>
+#include"resource.h"
+#include"CscreenDlg.h"
 // CRemoteSERVERDlg 对话框
 class CRemoteSERVERDlg : public CDialogEx
 {
@@ -48,5 +50,9 @@ public:
 
 	void initialization();
 	static DWORD WINAPI acceptthread(LPVOID lparam);
+
+public:
+	afx_msg void OnNMRClickList2(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnScreen();
 
 };

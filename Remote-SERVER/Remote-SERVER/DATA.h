@@ -3,9 +3,52 @@
 #define SEVER_CMD_COMMAND 1001
 #define CLIENT_CMD_BACK 1002
 #define CLIENT_KEYBOARD_BACK 2001
+#define SERVER_SCREEN_COMMAND 3001
+#define CLIENT_SCREEN_BACK 3002
+
+#pragma pack(push)
+#pragma pack(1)
+
+struct screendata
+{
+	unsigned int width; //фад╩©М
+	unsigned int height;    //фад╩╦ъ
+	char data[];
+};
+
+
 struct DATA
 {
 	unsigned int type;
 	unsigned int length;
 	char reallydata[];
 };
+#pragma pack(pop)
+
+inline bool senddatahead(SOCKET s, unsigned int type)
+{
+	DATA datainf;
+	datainf.length = 0;
+	datainf.type = SERVER_SCREEN_COMMAND;
+	send(s, (char*)&datainf, sizeof(unsigned int) * 2, 0);
+	return true;
+}
+
+inline bool recvdata(SOCKET s, char* pbuf, int bufsize)
+{
+	if (bufsize <= 0 || pbuf == NULL || s == INVALID_SOCKET)
+	{
+		return false;
+	}
+
+	int recvedsize = 0;
+
+	while (recvedsize < bufsize)
+	{
+		int ret = recv(s, pbuf + recvedsize, bufsize - recvedsize, 0);
+		if (ret <= 0) return false;
+		else recvedsize += ret;
+	}
+	return true;
+}
+
