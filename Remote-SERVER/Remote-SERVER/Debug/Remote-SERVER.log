@@ -1,19 +1,10 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(453,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
 cl : 命令行 warning D9025: 正在重写“/sdl”(用“/GS-”)
-  pch.cpp
-cl : 命令行 warning D9025: 正在重写“/sdl”(用“/GS-”)
-  CscreenDlg.cpp
-C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(16,13): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
-C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(16,13): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
-C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(24,19): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
-C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(24,19): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
-  Remote-SERVER.cpp
   Remote-SERVERDlg.cpp
-C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(16,13): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
-C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(16,13): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
-C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(24,19): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
-C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(24,19): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
-C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(102,33): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(145,30): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  正在生成代码...
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(22,13): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(22,13): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(30,19): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(30,19): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(167,33): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(209,30): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   Remote-SERVER.vcxproj -> C:\Users\19100\Desktop\Remote\bin\Remote-SERVER.exe

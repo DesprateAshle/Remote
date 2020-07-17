@@ -2,9 +2,16 @@
 #include<iostream>
 #define SEVER_CMD_COMMAND 1001
 #define CLIENT_CMD_BACK 1002
+
 #define CLIENT_KEYBOARD_BACK 2001
+
 #define SERVER_SCREEN_COMMAND 3001
 #define CLIENT_SCREEN_BACK 3002
+
+#define Client_BEAT 10001
+#define SERVER_BEAT 10002
+
+#define HEART_BEAT_TIME 1000*5
 #pragma pack(push)
 #pragma pack(1)
 struct DATA
@@ -47,5 +54,14 @@ inline bool senddata(SOCKET s, unsigned int type, char* pbuf, int bufsize)
 	send(s, (char*)&pkt, sizeof(unsigned int) * 2, 0);
 	send(s, pbuf, bufsize, 0);
 
+	return true;
+}
+
+inline bool senddatahead(SOCKET s, unsigned int type)
+{
+	DATA datainf;
+	datainf.length = 0;
+	datainf.type = type;
+	send(s, (char*)&datainf, sizeof(unsigned int) * 2, 0);
 	return true;
 }

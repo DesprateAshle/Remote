@@ -9,6 +9,7 @@
 #include "afxdialogex.h"
 #include"Mysession.h"
 #include"DATA.h"
+#include<vector>
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -19,6 +20,7 @@ public:
 	SOCKET* sclient;
 	Mysession *psession;
 };
+
 
 
 DWORD WINAPI recvthread(LPVOID lparam)
@@ -39,12 +41,15 @@ DWORD WINAPI recvthread(LPVOID lparam)
 		bret = recvdata(*(p->sclient), (char*)&drbuf, sizeof(unsigned int) * 2);
 		if (!bret) return 0;
 
-		if (drbuf.length > 0)
+		if (drbuf.length >= 0)
 		{
-			pdata = new char[drbuf.length + 5];
+			pdata = new char[drbuf.length];
 			if (pdata == NULL) return 0;
 
 			recvdata(*(p->sclient), pdata, drbuf.length);
+
+			//更新收包时间戳
+			p->psession->clientlasttime = GetTickCount();
 
 
 			if (drbuf.type == CLIENT_KEYBOARD_BACK)
@@ -56,7 +61,7 @@ DWORD WINAPI recvthread(LPVOID lparam)
 			{
 				//输出cmd数据
 			}
-			else if (drbuf.type = CLIENT_SCREEN_BACK)
+			else if (drbuf.type == CLIENT_SCREEN_BACK)
 			{
 				if (p->psession->pscreendlg != NULL)
 				{
@@ -68,21 +73,81 @@ DWORD WINAPI recvthread(LPVOID lparam)
 					}
 				}
 			}
+			else if (drbuf.type == Client_BEAT)
+			{
+				senddatahead(*(p->sclient), SERVER_BEAT);
+			}
+			if (pdata != NULL) delete[] pdata;
 		}
-		if (pdata != NULL) delete[] pdata;
 	}
 	return true;
 }
 
 DWORD WINAPI CRemoteSERVERDlg::acceptthread(LPVOID lparam)
 {
-	sockaddr_in clientaddr = { 0 };
-	clientaddr.sin_family = AF_INET;
-	int addrlen = sizeof(sockaddr_in);
+	CRemoteSERVERDlg* dlg = (CRemoteSERVERDlg*)lparam;
+
+	std::thread heartbeat([&] {
+
+
+		while (true)
+		{
+			
+				std::vector<SOCKET> del;
+
+
+				for (auto m : dlg->map_session)
+				{
+					SOCKET s = m.first;
+					Mysession* psession = m.second;
+					if (GetTickCount() - psession->clientlasttime > HEART_BEAT_TIME * 2)
+					{
+						//此时该客户端掉线 处理map 处理界面 处理socket
+
+						//处理socket
+						/*closesocket(s);*/
+						del.push_back(s);
+
+					}
+				}
+
+				if (del.size() > 0)
+				{
+					std::lock_guard<std::mutex> lg(dlg->accept_mutex);  //对map进行锁存
+					//处理map
+					for (auto l : del)
+					{
+						dlg->map_session.erase(l);
+					}
+				}
+
+				//处理界面
+				for (int i = 0; i < dlg->list_client.GetItemCount(); i++)
+				{
+					SOCKET sclient = dlg->list_client.GetItemData(i);
+					for (auto l : del)
+					{
+						if (l == sclient)
+						{
+							dlg->list_client.DeleteItem(i);
+							break;
+						}
+					}
+				}
+
+				del.clear();
+
+				Sleep(HEART_BEAT_TIME);
+			
+		}
+		
+	});
 
 	while (true)
 	{
-		CRemoteSERVERDlg* dlg = (CRemoteSERVERDlg*)lparam;
+		sockaddr_in clientaddr = { 0 };
+		clientaddr.sin_family = AF_INET;
+		int addrlen = sizeof(sockaddr_in);
 
 		SOCKET sclient = accept(dlg->sserver, (sockaddr*)&clientaddr, &addrlen);
 		
@@ -106,7 +171,6 @@ DWORD WINAPI CRemoteSERVERDlg::acceptthread(LPVOID lparam)
 			//序号与socket关联
 			dlg->list_client.SetItemData(index, sclient);
 		}
-
 		//构建线程参数
 		param p;
 		p.psession = psession;
