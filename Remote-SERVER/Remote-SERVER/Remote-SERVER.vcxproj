@@ -193,6 +193,8 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Ccmddlg.h" />
+    <ClInclude Include="Ckeyboarddlg.h" />
     <ClInclude Include="CscreenDlg.h" />
     <ClInclude Include="DATA.h" />
     <ClInclude Include="framework.h" />
@@ -204,6 +206,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Ccmddlg.cpp" />
+    <ClCompile Include="Ckeyboarddlg.cpp" />
     <ClCompile Include="CscreenDlg.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

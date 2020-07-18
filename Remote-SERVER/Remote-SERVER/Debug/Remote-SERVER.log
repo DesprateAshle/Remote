@@ -5,6 +5,6 @@ C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(22,13): 
 C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(22,13): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
 C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(30,19): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
 C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(30,19): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
-C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(167,33): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(209,30): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(176,33): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(218,30): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
   Remote-SERVER.vcxproj -> C:\Users\19100\Desktop\Remote\bin\Remote-SERVER.exe

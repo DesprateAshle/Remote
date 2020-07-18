@@ -55,4 +55,6 @@ public:
 	afx_msg void OnNMRClickList2(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnScreen();
 
+	afx_msg void OnCmd();
+	afx_msg void OnKeyboard();
 };

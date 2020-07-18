@@ -31,15 +31,6 @@ struct DATA
 };
 #pragma pack(pop)
 
-inline bool senddatahead(SOCKET s, unsigned int type)
-{
-	DATA datainf;
-	datainf.length = 0;
-	datainf.type = type;
-	send(s, (char*)&datainf, sizeof(unsigned int) * 2, 0);
-	return true;
-}
-
 inline bool recvdata(SOCKET s, char* pbuf, int bufsize)
 {
 	if (bufsize <= 0 || pbuf == NULL || s == INVALID_SOCKET)
@@ -55,6 +46,32 @@ inline bool recvdata(SOCKET s, char* pbuf, int bufsize)
 		if (ret <= 0) return false;
 		else recvedsize += ret;
 	}
+	return true;
+}
+
+inline bool senddata(SOCKET s, unsigned int type, char* pbuf, int bufsize)
+{
+	if (bufsize <= 0 || pbuf == NULL || s == INVALID_SOCKET)
+	{
+		return false;
+	}
+	DATA pkt;
+	pkt.length = bufsize;
+	pkt.type = type;
+
+
+	send(s, (char*)&pkt, sizeof(unsigned int) * 2, 0);
+	send(s, pbuf, bufsize, 0);
+
+	return true;
+}
+
+inline bool senddatahead(SOCKET s, unsigned int type)
+{
+	DATA datainf;
+	datainf.length = 0;
+	datainf.type = type;
+	send(s, (char*)&datainf, sizeof(unsigned int) * 2, 0);
 	return true;
 }
 
