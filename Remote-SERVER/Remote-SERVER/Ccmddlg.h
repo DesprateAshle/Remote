@@ -27,5 +27,5 @@ public:
 
 public:
 	char *buf= NULL;
-	SOCKET sclient;
+	SOCKET *sclient;
 };

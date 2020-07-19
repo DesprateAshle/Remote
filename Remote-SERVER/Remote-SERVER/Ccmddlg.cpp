@@ -49,5 +49,5 @@ void Ccmddlg::OnBnClickedButton1()
 		wbuf[i] = getcommand[i];
 	}
 
-	senddata(sclient, SEVER_CMD_COMMAND, wbuf, length);
+	senddata(*sclient, SEVER_CMD_COMMAND, wbuf, length);
 }

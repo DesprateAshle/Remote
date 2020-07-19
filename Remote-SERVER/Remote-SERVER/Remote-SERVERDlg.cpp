@@ -25,7 +25,6 @@ DWORD WINAPI recvthread(LPVOID lparam)
 {
 	param* p = (param*)lparam;
 	bool bret;
-	char* pdata = NULL;
 	while (true)
 	{
 
@@ -33,7 +32,7 @@ DWORD WINAPI recvthread(LPVOID lparam)
 		char rbuf[30] = { 0 };
 		getdate = recv(*sclient, rbuf, sizeof(unsigned int) * 2, 0);
 		DATA* datapacket = (DATA*)rbuf;*/
-
+		char* pdata = NULL;
 		//收取头部数据
 		DATA drbuf;
 		bret = recvdata(*(p->sclient), (char*)&drbuf, sizeof(unsigned int) * 2);
@@ -43,7 +42,7 @@ DWORD WINAPI recvthread(LPVOID lparam)
 
 		if (drbuf.length >= 0)
 		{
-			pdata = new char[drbuf.length+1];
+			pdata = new char[drbuf.length];
 			if (pdata == NULL) return 0;
 
 			recvdata(*(p->sclient), pdata, drbuf.length);
@@ -65,9 +64,9 @@ DWORD WINAPI recvthread(LPVOID lparam)
 			else if (drbuf.type == CLIENT_CMD_BACK)
 			{
 				//输出cmd数据
-				if (p->psession->pcmddlg != NULL)
+				if (p->psession->pcmddlg != NULL /*&& drbuf.length != 0*/)
 				{
-					p->psession->pcmddlg->sclient = *(p->sclient);
+					p->psession->pcmddlg->sclient = (p->sclient);
 
 					p->psession->pcmddlg->edit_output.SetSel(-1);
 					p->psession->pcmddlg->edit_output.ReplaceSel((CString)pdata);
@@ -87,7 +86,11 @@ DWORD WINAPI recvthread(LPVOID lparam)
 				}
 			}
 
-			if (pdata != NULL) delete[] pdata;
+			if (pdata != NULL)
+			{
+				delete[] pdata;
+				pdata = NULL;
+			}
 		}
 	}
 	return true;
