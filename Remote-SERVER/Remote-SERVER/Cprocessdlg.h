@@ -31,4 +31,8 @@ public:
 public:
 	Cdlldlg* pdlldlg = NULL;
 	SOCKET sclient;
+<<<<<<< HEAD
+	afx_msg void Onprocesskill();
+=======
+>>>>>>> f26af373a848d5560df1037e52d3ab26fb216d07
 };

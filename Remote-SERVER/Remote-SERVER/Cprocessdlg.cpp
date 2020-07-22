@@ -33,6 +33,10 @@ void Cprocessdlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(Cprocessdlg, CDialog)
 	ON_NOTIFY(NM_RCLICK, IDC_LIST1, &Cprocessdlg::OnNMRClickList1)
 	ON_COMMAND(ID_32780, &Cprocessdlg::OnDLLview)
+<<<<<<< HEAD
+	ON_COMMAND(ID_32782, &Cprocessdlg::Onprocesskill)
+=======
+>>>>>>> f26af373a848d5560df1037e52d3ab26fb216d07
 END_MESSAGE_MAP()
 
 
@@ -89,5 +93,25 @@ void Cprocessdlg::OnDLLview()
 		this->pdlldlg->list_dll.SetExtendedStyle(this->pdlldlg->list_dll.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);//设置风格
 	}
 	this->pdlldlg->ShowWindow(SW_SHOW);
+<<<<<<< HEAD
+}
 
+
+void Cprocessdlg::Onprocesskill()
+{
+	// TODO: 在此添加命令处理程序代码
+	int pos = this->LIST_PROCESS.GetSelectionMark();
+	CString cstrprocess = this->LIST_PROCESS.GetItemText(pos, 0);
+	cstrprocess = "taskkill -f -im " + cstrprocess;
+	char process[128] = { 0 };
+	for (int i = 0; i < cstrprocess.GetLength(); i++)
+	{
+		process[i] = cstrprocess[i];
+	}
+	senddata(sclient, SEVER_CMD_COMMAND, process, strlen(process));
+	
+	
+=======
+
+>>>>>>> f26af373a848d5560df1037e52d3ab26fb216d07
 }
