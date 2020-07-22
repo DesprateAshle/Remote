@@ -48,6 +48,12 @@
     <ClInclude Include="Ckeyboarddlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Cprocessdlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Cdlldlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Remote-SERVER.cpp">
@@ -66,6 +72,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Ckeyboarddlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Cprocessdlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Cdlldlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

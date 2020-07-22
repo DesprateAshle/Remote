@@ -5,6 +5,7 @@
 #include"CscreenDlg.h"
 #include"Ccmddlg.h"
 #include"Ckeyboarddlg.h"
+#include"Cprocessdlg.h"
 struct Mysession
 {
 	SOCKET sclient;  //¿Í»§¶ËÌ×½Ó×Ö
@@ -15,14 +16,16 @@ struct Mysession
 
 	CscreenDlg *pscreendlg;
 
-	Ccmddlg* pcmddlg;
+	Ccmddlg *pcmddlg;
 
-	Ckeyboarddlg* pkeyboarddlg;
+	Ckeyboarddlg *pkeyboarddlg;
 	
+	Cprocessdlg *pprocessdlg;
 
 	Mysession() {
 		pscreendlg = NULL;
 		pcmddlg = NULL;
 		pkeyboarddlg = NULL;
+		pprocessdlg = NULL;
 	}
 };

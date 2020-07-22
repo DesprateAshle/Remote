@@ -8,13 +8,20 @@
 #define SERVER_SCREEN_COMMAND 3001
 #define CLIENT_SCREEN_BACK 3002
 
+#define SERVER_PROCESS_GET 4001
+#define CLIENT_PROCESS_BACK 4002
+
+#define SERVER_DLLLIST_VIEW 5001
+#define CLIENT_DLLDATA_BACK 5002
+
 #define Client_BEAT 10001
 #define SERVER_BEAT 10002
 
 #define HEART_BEAT_TIME 1000*5
 #pragma pack(push)
 #pragma pack(1)
-
+#pragma pack(push)
+#pragma pack(1)
 struct screendata
 {
 	unsigned int width; //фад╩©М
@@ -74,4 +81,3 @@ inline bool senddatahead(SOCKET s, unsigned int type)
 	send(s, (char*)&datainf, sizeof(unsigned int) * 2, 0);
 	return true;
 }
-

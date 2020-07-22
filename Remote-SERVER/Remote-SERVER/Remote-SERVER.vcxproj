@@ -194,7 +194,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Ccmddlg.h" />
+    <ClInclude Include="Cdlldlg.h" />
     <ClInclude Include="Ckeyboarddlg.h" />
+    <ClInclude Include="Cprocessdlg.h" />
     <ClInclude Include="CscreenDlg.h" />
     <ClInclude Include="DATA.h" />
     <ClInclude Include="framework.h" />
@@ -207,7 +209,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Ccmddlg.cpp" />
+    <ClCompile Include="Cdlldlg.cpp" />
     <ClCompile Include="Ckeyboarddlg.cpp" />
+    <ClCompile Include="Cprocessdlg.cpp" />
     <ClCompile Include="CscreenDlg.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
