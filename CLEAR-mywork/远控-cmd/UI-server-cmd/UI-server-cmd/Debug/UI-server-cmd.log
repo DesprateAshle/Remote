@@ -1,7 +1,0 @@
-﻿cl : 命令行 warning D9025: 正在重写“/sdl”(用“/GS-”)
-  UI-server-cmd.cpp
-  UI-server-cmdDlg.cpp
-C:\Users\19100\Desktop\UI-server-cmd\UI-server-cmd\UI-server-cmdDlg.cpp(134,35): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-C:\Users\19100\Desktop\UI-server-cmd\UI-server-cmd\UI-server-cmdDlg.cpp(293,25): warning C4244: “=”: 从“wchar_t”转换到“char”，可能丢失数据
-  正在生成代码...
-  UI-server-cmd.vcxproj -> C:\Users\19100\Desktop\UI-server-cmd\Debug\UI-server-cmd.exe

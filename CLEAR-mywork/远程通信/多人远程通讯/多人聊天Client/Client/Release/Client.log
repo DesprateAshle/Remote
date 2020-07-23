@@ -1,9 +1,0 @@
-﻿cl : 命令行 warning D9025: 正在重写“/sdl”(用“/GS-”)
-  Client.cpp
-C:\Users\19100\Desktop\Client\Client\Client.cpp(83,37): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-  正在生成代码
-  6 of 14 functions (42.9%) were compiled, the rest were copied from previous compilation.
-    1 functions were new in current compilation
-    2 functions had inline decision re-evaluated but remain unchanged
-  已完成代码的生成
-  Client.vcxproj -> C:\Users\19100\Desktop\Client\Release\Client.exe

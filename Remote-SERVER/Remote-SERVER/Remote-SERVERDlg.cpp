@@ -45,12 +45,8 @@ DWORD WINAPI recvthread(LPVOID lparam)
 
 		if (drbuf.length >= 0)
 		{
-<<<<<<< HEAD
-			pdata = new char[drbuf.length + 5];
+			pdata = new char[drbuf.length+5];
 			memset(pdata, 0, drbuf.length + 5);
-=======
-			pdata = new char[drbuf.length];
->>>>>>> f26af373a848d5560df1037e52d3ab26fb216d07
 			if (pdata == NULL) return 0;
 
 			recvdata(*(p->sclient), pdata, drbuf.length);
