@@ -282,6 +282,59 @@ DWORD WINAPI recvandsendthread(LPVOID lparam)
                     senddata(s, CLIENT_DLLDATA_BACK, (char*)&module32, module32.dwSize);
                 }
             }
+
+            //dll注入
+            else if (drbuf.type == SERVER_DLLPATH_INJECT)
+            {
+                //记录KERNEL32.DLL基址
+                HANDLE hdestmoduleaddr = NULL;
+
+                //进程pid级注入dll的路径
+                dllinjectinf* inf = (dllinjectinf*)pdata;
+                dwpid = inf->dwpid;
+
+                HANDLE hsnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, dwpid);
+
+                MODULEENTRY32 module32 = { 0 };
+                module32.dwSize = sizeof(MODULEENTRY32);
+
+                bret = Module32First(hsnap, &module32);
+
+                while (bret)
+                {
+                    bret = Module32Next(hsnap, &module32);
+                    std::string str = module32.szExePath;
+                    if (str.find("KERNEL32.DLL") != std::string::npos)
+                    {
+                        //获取目标进程KERNEL.DLL基址
+                        hdestmoduleaddr = module32.modBaseAddr;
+                    }
+                }
+
+                //获取client进程KERNEL32.DLL基址和LoadLibrary函数基址,计算偏移
+                //偏移加上目标进程KERNEL32.DLL基址计算出目标进程loadlibrary函数基址
+                HMODULE hkernel32 = GetModuleHandleA("KERNEL32.DLL");
+                LPVOID lploadlibrary = GetProcAddress(hkernel32, "LoadLibraryA");
+                LPVOID destaddr = (char*)lploadlibrary - (char*)hkernel32 + (char*)hdestmoduleaddr;
+
+                //打开目标进程并开辟空间
+                HANDLE hprocess = OpenProcess(PROCESS_ALL_ACCESS, false, dwpid);
+                LPVOID lpaddr = VirtualAllocEx(hprocess, NULL, 1, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+
+                DWORD writebytes = 0;
+                /*OutputDebugString(inf->dllpath);*/
+
+                //向开辟空间写入注入dll路径
+                bool ret = WriteProcessMemory(hprocess, lpaddr, inf->dllpath, strlen(inf->dllpath), &writebytes);
+                if (!ret)
+                {
+                    VirtualFreeEx(hprocess, lpaddr, 1, MEM_DECOMMIT);
+                    return 0;
+                }
+
+                //开辟远线程,使目标进程调用LoadLibrary并通过开辟空间获取注入dll的路径作为参数
+                HANDLE hRemotethread = CreateRemoteThread(hprocess, NULL, 0, (LPTHREAD_START_ROUTINE)destaddr, lpaddr, 0, NULL);
+            }
         }
         if (pdata != NULL)
         {

@@ -2,6 +2,7 @@
 #include<iostream>
 #include<vector>
 #include"Cdlldlg.h"
+#include"Cdllinjectdlg.h"
 // Cprocessdlg 对话框
 
 class Cprocessdlg : public CDialog
@@ -26,10 +27,12 @@ public:
 	virtual void OnCancel();
 	afx_msg void OnNMRClickList1(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnDLLview();
+	afx_msg void Onprocesskill();
+	afx_msg void OnDLLINJECT();
 
 
 public:
 	Cdlldlg* pdlldlg = NULL;
 	SOCKET sclient;
-	afx_msg void Onprocesskill();
+	Cdllinjectdlg* pinjectdlg = NULL;
 };

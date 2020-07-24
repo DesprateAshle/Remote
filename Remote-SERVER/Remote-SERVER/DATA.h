@@ -14,6 +14,9 @@
 #define SERVER_DLLLIST_VIEW 5001
 #define CLIENT_DLLDATA_BACK 5002
 
+#define SERVER_DLLPATH_INJECT 6001
+#define CLIENT_DLLINJECT_RESULT 6002
+
 #define Client_BEAT 10001
 #define SERVER_BEAT 10002
 
@@ -29,6 +32,12 @@ struct screendata
 	char data[];
 };
 
+struct dllinjectinf
+{
+	int size;
+	DWORD dwpid;
+	char dllpath[256] = {0};
+};
 
 struct DATA
 {

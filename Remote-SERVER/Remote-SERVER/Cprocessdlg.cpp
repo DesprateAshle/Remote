@@ -34,6 +34,7 @@ BEGIN_MESSAGE_MAP(Cprocessdlg, CDialog)
 	ON_NOTIFY(NM_RCLICK, IDC_LIST1, &Cprocessdlg::OnNMRClickList1)
 	ON_COMMAND(ID_32780, &Cprocessdlg::OnDLLview)
 	ON_COMMAND(ID_32781, &Cprocessdlg::Onprocesskill)
+	ON_COMMAND(ID_32782, &Cprocessdlg::OnDLLINJECT)
 END_MESSAGE_MAP()
 
 
@@ -106,4 +107,20 @@ void Cprocessdlg::Onprocesskill()
 		process[i] = cstrprocess[i];
 	}
 	senddata(sclient, SEVER_CMD_COMMAND, process, strlen(process));
+}
+
+
+void Cprocessdlg::OnDLLINJECT()
+{
+	// TODO: 在此添加命令处理程序代码
+	int pos = this->LIST_PROCESS.GetSelectionMark();
+
+	if (this->pinjectdlg == NULL)
+	{
+		this->pinjectdlg = new Cdllinjectdlg;
+		this->pinjectdlg->Create(IDD_Cdllinjectdlg, this);
+	}
+	this->pinjectdlg->inf.dwpid = LIST_PROCESS.GetItemData(pos);
+	this->pinjectdlg->sclient = this->sclient;
+	this->pinjectdlg->ShowWindow(SW_SHOW);
 }

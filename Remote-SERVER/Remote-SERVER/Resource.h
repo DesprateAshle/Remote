@@ -10,6 +10,7 @@
 #define IDD_Ckeyboarddlg                105
 #define IDD_Cprocessdlg                 106
 #define IDD_Cdlldlg                     107
+#define IDD_Cdllinjectdlg               108
 #define IDR_MAINFRAME                   128
 #define IDR_MENU1                       130
 #define IDR_MENU2                       134
@@ -29,14 +30,15 @@
 #define ID_32779                        32779
 #define ID_32780                        32780
 #define ID_32781                        32781
+#define ID_32782                        32782
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        135
-#define _APS_NEXT_COMMAND_VALUE         32782
+#define _APS_NEXT_RESOURCE_VALUE        136
+#define _APS_NEXT_COMMAND_VALUE         32783
 #define _APS_NEXT_CONTROL_VALUE         1006
-#define _APS_NEXT_SYMED_VALUE           108
+#define _APS_NEXT_SYMED_VALUE           109
 #endif
 #endif
