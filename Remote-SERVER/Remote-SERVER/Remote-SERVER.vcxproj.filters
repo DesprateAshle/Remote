@@ -57,6 +57,9 @@
     <ClInclude Include="Cdllinjectdlg.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Cfiletransferdlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Remote-SERVER.cpp">
@@ -84,6 +87,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Cdllinjectdlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Cfiletransferdlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

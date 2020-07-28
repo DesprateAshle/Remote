@@ -6,6 +6,7 @@
 #include"Ccmddlg.h"
 #include"Ckeyboarddlg.h"
 #include"Cprocessdlg.h"
+#include"Cfiletransferdlg.h"
 struct Mysession
 {
 	SOCKET sclient;  //¿Í»§¶ËÌ×½Ó×Ö
@@ -22,10 +23,13 @@ struct Mysession
 	
 	Cprocessdlg *pprocessdlg;
 
+	Cfiletransferdlg* pfiletransfer;
+
 	Mysession() {
 		pscreendlg = NULL;
 		pcmddlg = NULL;
 		pkeyboarddlg = NULL;
 		pprocessdlg = NULL;
+		pfiletransfer = NULL;
 	}
 };

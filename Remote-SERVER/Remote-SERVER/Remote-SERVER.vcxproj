@@ -196,6 +196,7 @@
     <ClInclude Include="Ccmddlg.h" />
     <ClInclude Include="Cdlldlg.h" />
     <ClInclude Include="Cdllinjectdlg.h" />
+    <ClInclude Include="Cfiletransferdlg.h" />
     <ClInclude Include="Ckeyboarddlg.h" />
     <ClInclude Include="Cprocessdlg.h" />
     <ClInclude Include="CscreenDlg.h" />
@@ -212,6 +213,7 @@
     <ClCompile Include="Ccmddlg.cpp" />
     <ClCompile Include="Cdlldlg.cpp" />
     <ClCompile Include="Cdllinjectdlg.cpp" />
+    <ClCompile Include="Cfiletransferdlg.cpp" />
     <ClCompile Include="Ckeyboarddlg.cpp" />
     <ClCompile Include="Cprocessdlg.cpp" />
     <ClCompile Include="CscreenDlg.cpp" />

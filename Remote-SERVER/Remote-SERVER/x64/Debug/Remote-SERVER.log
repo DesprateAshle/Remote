@@ -1,0 +1,131 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(453,5): warning MSB8004: Output 目录未以斜杠结尾。  此生成实例将添加斜杠，因为必须有这个斜杠才能正确计算 Output 目录。
+cl : 命令行 warning D9025: 正在重写“/sdl”(用“/GS-”)
+  pch.cpp
+cl : 命令行 warning D9025: 正在重写“/sdl”(用“/GS-”)
+  Ccmddlg.cpp
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Ccmddlg.cpp(49,25): warning C4244: “=”: 从“wchar_t”转换到“char”，可能丢失数据
+  Cdlldlg.cpp
+  Cdllinjectdlg.cpp
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cdllinjectdlg.cpp(43,35): error C2039: "GetWindowTextA": 不是 "CEdit" 的成员
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\afxwin.h(3821): message : 参见“CEdit”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cdllinjectdlg.cpp(46,37): warning C4244: “=”: 从“wchar_t”转换到“char”，可能丢失数据
+  Cfiletransferdlg.cpp
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cfiletransferdlg.cpp(64,38): error C2664: “int CWnd::MessageBoxW(LPCTSTR,LPCTSTR,UINT)”: 无法将参数 1 从“const char [15]”转换为“LPCTSTR”
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cfiletransferdlg.cpp(64,15): message : 与指向的类型无关；强制转换要求 reinterpret_cast、C 样式强制转换或函数样式强制转换
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\afxwin.h(2527,6): message : 参见“CWnd::MessageBoxW”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cfiletransferdlg.cpp(71,43): warning C4244: “=”: 从“wchar_t”转换到“char”，可能丢失数据
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cfiletransferdlg.cpp(97,48): warning C4244: “=”: 从“wchar_t”转换到“char”，可能丢失数据
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cfiletransferdlg.cpp(101,42): warning C4244: “=”: 从“wchar_t”转换到“char”，可能丢失数据
+  Ckeyboarddlg.cpp
+  Cprocessdlg.cpp
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cprocessdlg.cpp(79,13): warning C4244: “初始化”: 从“DWORD_PTR”转换到“DWORD”，可能丢失数据
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cprocessdlg.cpp(87,48): error C2664: “int CListCtrl::InsertColumn(int,LPCTSTR,int,int,int)”: 无法将参数 2 从“const char [4]”转换为“const LVCOLUMNW *”
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cprocessdlg.cpp(87,43): message : 与指向的类型无关；强制转换要求 reinterpret_cast、C 样式强制转换或函数样式强制转换
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\afxcmn.h(530,6): message : 参见“CListCtrl::InsertColumn”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cprocessdlg.cpp(103,48): error C2678: 二进制“+”: 没有找到接受“const char [17]”类型的左操作数的运算符(或没有可接受的转换)
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\include\comutil.h(454,16): message : 可能是“_bstr_t operator +(const wchar_t *,const _bstr_t &)”
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\include\comutil.h(444,16): message : 或    “_bstr_t operator +(const char *,const _bstr_t &)”
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\atlsimpstr.h(643,24): message : 或    “ATL::CSimpleStringT<TCHAR,false> ATL::CSimpleStringT<TCHAR,false>::operator +(const ATL::CSimpleStringT<TCHAR,false> &,const ATL::CSimpleStringT<TCHAR,false> &)”[使用参数相关的查找找到]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\atlsimpstr.h(654,24): message : 或    “ATL::CSimpleStringT<TCHAR,false> ATL::CSimpleStringT<TCHAR,false>::operator +(const ATL::CSimpleStringT<TCHAR,false> &,const wchar_t *)”[使用参数相关的查找找到]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\atlsimpstr.h(665,24): message : 或    “ATL::CSimpleStringT<TCHAR,false> ATL::CSimpleStringT<TCHAR,false>::operator +(const wchar_t *,const ATL::CSimpleStringT<TCHAR,false> &)”[使用参数相关的查找找到]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\cstringt.h(2380,18): message : 或    “ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>>::operator +(const ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> &,const ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> &)”[使用参数相关的查找找到]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\cstringt.h(2391,18): message : 或    “ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> ATL::operator +(const ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> &,const wchar_t *)”[使用参数相关的查找找到]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\cstringt.h(2402,18): message : 或    “ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> ATL::operator +(const wchar_t *,const ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> &)”[使用参数相关的查找找到]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\cstringt.h(2419,18): message : 或    “ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>>::operator +(const ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> &,char)”[使用参数相关的查找找到]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\cstringt.h(2431,18): message : 或    “ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>>::operator +(char,const ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> &)”[使用参数相关的查找找到]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\cstringt.h(2444,18): message : 或    “ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>>::operator +(const ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> &,wchar_t)”[使用参数相关的查找找到]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\cstringt.h(2456,18): message : 或    “ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>>::operator +(wchar_t,const ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>> &)”[使用参数相关的查找找到]
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cprocessdlg.cpp(103,48): message : 尝试匹配参数列表“(const char [17], CString)”时
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cprocessdlg.cpp(107,29): warning C4244: “=”: 从“wchar_t”转换到“char”，可能丢失数据
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cprocessdlg.cpp(109,63): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Cprocessdlg.cpp(123,56): warning C4244: “=”: 从“DWORD_PTR”转换到“DWORD”，可能丢失数据
+  CscreenDlg.cpp
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+  Remote-SERVER.cpp
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+  Remote-SERVERDlg.cpp
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(43,13): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): warning C4200: 使用了非标准扩展: 结构/联合中的零大小数组
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\DATA.h(57,19): message : 默认构造函数或 copy/move 赋值运算符将忽略此成员
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(102,42): error C2664: “void std::vector<std::string,std::allocator<std::string>>::push_back(_Ty &&)”: 无法将参数 1 从“WCHAR [260]”转换为“const _Ty &”
+          with
+          [
+              _Ty=std::string
+          ]
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(102,42): message : 原因如下: 无法从“WCHAR [260]”转换为“const _Ty”
+          with
+          [
+              _Ty=std::string
+          ]
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(102,42): message : 无构造函数可以接受源类型，或构造函数重载决策不明确
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\include\vector(716,10): message : 参见“std::vector<std::string,std::allocator<std::string>>::push_back”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(103,94): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(104,99): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(107,43): error C2664: “void ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>>::Format(UINT,...)”: 无法将参数 1 从“const char [3]”转换为“const wchar_t *”
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(107,19): message : 与指向的类型无关；强制转换要求 reinterpret_cast、C 样式强制转换或函数样式强制转换
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\cstringt.h(2182,15): message : 参见“ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>>::Format”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(108,89): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(111,49): error C2664: “void ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>>::Format(UINT,...)”: 无法将参数 1 从“const char [3]”转换为“const wchar_t *”
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(111,19): message : 与指向的类型无关；强制转换要求 reinterpret_cast、C 样式强制转换或函数样式强制转换
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\cstringt.h(2182,15): message : 参见“ATL::CStringT<wchar_t,StrTraitMFC<wchar_t,ATL::ChTraitsCRT<wchar_t>>>::Format”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(112,89): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(125,78): error C2664: “void std::vector<std::string,std::allocator<std::string>>::push_back(_Ty &&)”: 无法将参数 1 从“WCHAR [260]”转换为“const _Ty &”
+          with
+          [
+              _Ty=std::string
+          ]
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(125,78): message : 原因如下: 无法从“WCHAR [260]”转换为“const _Ty”
+          with
+          [
+              _Ty=std::string
+          ]
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(125,78): message : 无构造函数可以接受源类型，或构造函数重载决策不明确
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\include\vector(716,10): message : 参见“std::vector<std::string,std::allocator<std::string>>::push_back”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(129,132): warning C4267: “参数”: 从“size_t”转换到“int”，可能丢失数据
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(247,77): error C2664: “int CListCtrl::InsertItem(UINT,int,LPCTSTR,UINT,UINT,int,LPARAM)”: 无法将参数 2 从“char [256]”转换为“LPCTSTR”
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(247,68): message : 与指向的类型无关；强制转换要求 reinterpret_cast、C 样式强制转换或函数样式强制转换
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\afxcmn.h(494,6): message : 参见“CListCtrl::InsertItem”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(246,33): warning C4996: 'inet_ntoa': Use inet_ntop() or InetNtop() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(290,30): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(394,39): error C2664: “int CListCtrl::InsertColumn(int,LPCTSTR,int,int,int)”: 无法将参数 2 从“const char [8]”转换为“const LVCOLUMNW *”
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(394,30): message : 与指向的类型无关；强制转换要求 reinterpret_cast、C 样式强制转换或函数样式强制转换
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\afxcmn.h(530,6): message : 参见“CListCtrl::InsertColumn”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(395,38): error C2664: “int CListCtrl::InsertColumn(int,LPCTSTR,int,int,int)”: 无法将参数 2 从“const char [7]”转换为“const LVCOLUMNW *”
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(395,30): message : 与指向的类型无关；强制转换要求 reinterpret_cast、C 样式强制转换或函数样式强制转换
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\afxcmn.h(530,6): message : 参见“CListCtrl::InsertColumn”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(396,43): error C2664: “int CListCtrl::InsertColumn(int,LPCTSTR,int,int,int)”: 无法将参数 2 从“const char [12]”转换为“const LVCOLUMNW *”
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(396,30): message : 与指向的类型无关；强制转换要求 reinterpret_cast、C 样式强制转换或函数样式强制转换
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\afxcmn.h(530,6): message : 参见“CListCtrl::InsertColumn”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(561,76): error C2664: “int CListCtrl::InsertColumn(int,LPCTSTR,int,int,int)”: 无法将参数 2 从“const char [5]”转换为“const LVCOLUMNW *”
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(561,68): message : 与指向的类型无关；强制转换要求 reinterpret_cast、C 样式强制转换或函数样式强制转换
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\afxcmn.h(530,6): message : 参见“CListCtrl::InsertColumn”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(562,73): error C2664: “int CListCtrl::InsertColumn(int,LPCTSTR,int,int,int)”: 无法将参数 2 从“const char [4]”转换为“const LVCOLUMNW *”
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(562,68): message : 与指向的类型无关；强制转换要求 reinterpret_cast、C 样式强制转换或函数样式强制转换
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\afxcmn.h(530,6): message : 参见“CListCtrl::InsertColumn”的声明
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(563,82): error C2664: “int CListCtrl::InsertColumn(int,LPCTSTR,int,int,int)”: 无法将参数 2 从“const char [10]”转换为“const LVCOLUMNW *”
+C:\Users\19100\Desktop\Remote\Remote\Remote-SERVER\Remote-SERVER\Remote-SERVERDlg.cpp(563,68): message : 与指向的类型无关；强制转换要求 reinterpret_cast、C 样式强制转换或函数样式强制转换
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.25.28610\atlmfc\include\afxcmn.h(530,6): message : 参见“CListCtrl::InsertColumn”的声明
+  正在生成代码...

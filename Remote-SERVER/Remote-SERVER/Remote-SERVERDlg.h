@@ -58,4 +58,5 @@ public:
 	afx_msg void OnCmd();
 	afx_msg void OnKeyboard();
 	afx_msg void OnProcess();
+	afx_msg void Onfiletransfer();
 };

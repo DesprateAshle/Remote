@@ -17,14 +17,27 @@
 #define SERVER_DLLPATH_INJECT 6001
 #define CLIENT_DLLINJECT_RESULT 6002
 
+#define SERVER_FILE_UP 7001
+#define CLIENT_FILE_DOWN 7002
+
 #define Client_BEAT 10001
 #define SERVER_BEAT 10002
 
-#define HEART_BEAT_TIME 1000*5
+#define HEART_BEAT_TIME 1000*50
+#define TRANSFER_SIZE 10000*1024
+
+#define SLEEP_TIME 100
+
 #pragma pack(push)
 #pragma pack(1)
-#pragma pack(push)
-#pragma pack(1)
+struct filedatastruct
+{
+	char despath[256] = { 0 };
+	char sourcepath[256] = { 0 };
+	unsigned int datasize;
+	char filedata[TRANSFER_SIZE];
+};
+
 struct screendata
 {
 	unsigned int width; //фад╩©М
@@ -61,6 +74,7 @@ inline bool recvdata(SOCKET s, char* pbuf, int bufsize)
 		int ret = recv(s, pbuf + recvedsize, bufsize - recvedsize, 0);
 		if (ret <= 0) return false;
 		else recvedsize += ret;
+		Sleep(SLEEP_TIME);
 	}
 	return true;
 }
@@ -78,7 +92,7 @@ inline bool senddata(SOCKET s, unsigned int type, char* pbuf, int bufsize)
 
 	send(s, (char*)&pkt, sizeof(unsigned int) * 2, 0);
 	send(s, pbuf, bufsize, 0);
-
+	Sleep(SLEEP_TIME);
 	return true;
 }
 
